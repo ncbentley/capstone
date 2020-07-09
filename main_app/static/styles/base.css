@@ -1,0 +1,8 @@
+span#login-error, p.help-block strong {
+    color: red;
+    font-size: 11px;
+}
+
+.hidden {
+    display: none;
+}

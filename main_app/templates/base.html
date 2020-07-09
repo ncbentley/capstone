@@ -1,24 +1,62 @@
 {% load static %}
+{% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block title %} {% endblock %}
+    <title>
+        {% block title %} {% endblock %}
+    </title>
     <!-- Reset -->
+    <!-- UIKit -->
+    <link rel="stylesheet" href="{% static 'vendors/uikit.min.css' %}">
+    <!-- Custom -->
     <link rel="stylesheet" href="{% static 'styles/base.css' %}">
     {% block styles %} {% endblock %}
     <!-- JQuery -->
+    <script src="{% static 'vendors/jquery.min.js' %}"></script>
+    <!-- UIKit -->
+    <script src="{% static 'vendors/uikit.min.js' %}"></script>
+    <!-- UIKit Icons -->
+    <script src="{% static 'vendors/uikit-icons.min.js' %}"></script>
+    <!-- Custom -->
     <script src="{% static 'scripts/base.js' %}"></script>
     {% block scripts %} {% endblock %}
 </head>
 <body>
     <header>
         <!-- Header -->
+        {% if user.isauthenticated %} <button uk-toggle="target: #authentication" type="button">Sign Up!</button> {% endif %}
     </header>
     <main>
         {% block content %} {% endblock %}
     </main>
+    <div id="authentication" {% if register_error or login_error %} class="uk-open" style="display: block;" {% endif %} uk-modal>
+        <div class="uk-modal-body uk-modal-dialog">
+            <ul uk-tab>
+                <li><a href="#">Login</a></li>
+                <li {% if register_error %} class="uk-active" {% endif %}><a href="#">Register</a></li>
+            </ul>
+            <ul class="uk-switcher">
+                <li>
+                    {% if login_error %} <span id="login-error">Invalid username or password.</span> {%endif%}
+                    <form action="{% url 'login' %}" method="POST" id="login-form">
+                        {% csrf_token %}
+                        {{login_form|crispy}}
+                        <input type="submit" value="Login"></input>
+                    </form>
+                </li>
+                <li>
+                    <form action="{% url 'signup' %}" method="POST" id="register-form">
+                        {% csrf_token %}
+                        {{register_form|crispy}}
+                        <input type="submit" value="Register"></input>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

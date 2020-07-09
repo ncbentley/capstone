@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -7,37 +7,39 @@ from django.contrib.auth.forms import AuthenticationForm
 from .models import Project, Sprint, Task, Page, Wireframe
 from .forms import RegistrationForm
 import json
-# Create your views here.
+
+# TODO: LoginRequired
 
 def home(request):
-    context = {'register_form': RegistrationForm(), 'login_form': AuthenticationForm()}
+    context = {'register_form': RegistrationForm(prefix="register"), 'login_form': AuthenticationForm(prefix="login")}
     return render(request, 'home.html', context)
 
 def login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
+    if request.method == 'POST': # Authenticate Login\
+        print(request.POST)
+        form = AuthenticationForm(request.POST, prefix="login")
+        username = request.POST.get('login-username')
+        password = request.POST.get('login-password')
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             auth_login(request, user)
-            return JsonResponse({'success': 'true'})
-        else:
-            return JsonResponse({'error': 'Username or password is incorrect'})
-    else: #Unauthorized
+            return redirect('/')
+        
+        return render(request, 'home.html', {'login_form': form, 'register_form': RegistrationForm(prefix="register"), 'login_error': 'true'})
+    else: # TODO: Unauthorized
         pass
 
 
 def signup(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+    if request.method == 'POST': #Authenticate registration
+        form = RegistrationForm(request.POST, prefix="register")
         if form.is_valid():
-            first = request.POST.get('first_name')
-            last = request.POST.get('last_name')
-            email = request.POST.get('email')
-            user_type = request.POST.get('user_type')
-            username = request.POST.get('username')
-            password = request.POST.get('password1')
+            first = request.POST.get('register-first_name')
+            last = request.POST.get('register-last_name')
+            email = request.POST.get('register-email')
+            user_type = request.POST.get('register-user_type')
+            username = request.POST.get('register-username')
+            password = request.POST.get('register-password1')
             user = form.save()
             user.profile.full_name = f"{first} {last}"
             user.profile.email = email
@@ -45,9 +47,9 @@ def signup(request):
             user.save()
             user = authenticate(username=username, password=password)
             auth_login(request, user)
-            return JsonResponse({'success': 'true'})
-        return JsonResponse({'error': form.errors})
-    else: #Unauthorized
+            return redirect('/')
+        return render(request, 'home.html', {'login_form': AuthenticationForm(prefix="login"), 'register_form': form, 'register_error': 'true'})
+    else: # TODO: Unauthorized
         pass
 
 
