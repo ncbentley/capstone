@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Capstone Project {% endblock %}
+
+{% block styles %} 
+    <!-- Styles -->
+{% endblock %}
+
+{% block scripts %}
+    <!-- Scripts -->
+{% endblock %}
+
+{% block content %}
+    <!-- Content -->
+    <form action="{% url 'signup' %}" method="POST">
+        {% csrf_token %}
+        {{register_form.as_p}}
+    </form>
+
+    {{login_form.as_p}}
+{% endblock %}
