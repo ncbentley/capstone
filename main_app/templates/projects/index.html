@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %} Capstone Project {% endblock %}
 
@@ -12,5 +13,23 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Content -->
+    <h1>Projects Index</h1> <button uk-toggle="target: #new-profile-form">+</button>
+    <div class="project-list">
+        {% for project in projects %}
+            <div class="project">
+                {{project.title}}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div {% if create_error %} class="uk-open" style="display: block;" {% endif %} id="new-profile-form" uk-modal>
+        <div class="uk-modal-body uk-modal-dialog">
+            <form action="{% url 'projects' %}" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" value="Create Project"></input>
+            </form>
+
+        </div>
+    </div>
 {% endblock %}

@@ -28,7 +28,7 @@
 <body>
     <header>
         <!-- Header -->
-        {% if user.isauthenticated %} <button uk-toggle="target: #authentication" type="button">Sign Up!</button> {% endif %}
+        {% if not user.is_authenticated %} <button uk-toggle="target: #authentication" type="button">Sign Up!</button> {% endif %}
     </header>
     <main>
         {% block content %} {% endblock %}

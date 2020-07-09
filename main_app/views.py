@@ -4,8 +4,8 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Project, Sprint, Task, Page, Wireframe
-from .forms import RegistrationForm
+from .models import Project, Sprint, Task, Page, Wireframe, Profile
+from .forms import RegistrationForm, ProjectForm
 import json
 
 # TODO: LoginRequired
@@ -56,10 +56,22 @@ def signup(request):
 def projects(request):
     if request.method == 'GET': # Projects Index
         projects = Project.objects.filter(Q(client=request.user.profile) | Q(dev=request.user.profile))
-        context = {projects: projects}
+        context = {'projects': projects, 'form': ProjectForm()}
         return render(request, 'projects/index.html', context)
     elif request.method == 'POST': # TODO: Projects Create
-        pass
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.dev = request.user.profile
+            try:
+                project.client = Profile.objects.get(email=request.POST.get("client_email"))
+                project.save()
+                return redirect(f'/projects/{project.id}')
+            except Exception as e:
+                print(e)
+                pass
+        projects = Project.objects.filter(Q(client=request.user.profile) | Q(dev=request.user.profile))
+        return render(request, 'projects/index.html', {'projects': projects, 'form': form, 'create_error': 'true'})
     else: # TODO: Unauthorized
         pass
 
