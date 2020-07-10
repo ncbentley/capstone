@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Project, Sprint, Page, Task
+from .models import Project, Sprint, Page, Task, Wireframe, Profile
 
 TYPES = (
     ('client', 'Client'),
@@ -29,3 +29,14 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['description']
+
+class WireframeForm(forms.ModelForm):
+    class Meta:
+        model = Wireframe
+        fields = ['image', 'description']
+
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ['full_name', 'email']

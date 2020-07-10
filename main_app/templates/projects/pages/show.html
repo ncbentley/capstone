@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %} Capstone Project {% endblock %}
 
@@ -12,5 +13,20 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Content -->
+    <h1>{{page.title}}</h1> <button uk-toggle="target: #new-wireframe-form">+</button>
+    <ul class="wireframe-list">
+        {% for wireframe in page.wireframe_set.all %}
+            <li>{{wireframe.description}}</li>
+        {% endfor %}
+    </ul>
+
+    <div id="new-wireframe-form" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <form action="{% url 'wireframes' page.project.id page.id %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ wireframe_form|crispy }}
+                <input type="submit" value="Create Wireframe">
+            </form>
+        </div>
+    </div>
 {% endblock %}

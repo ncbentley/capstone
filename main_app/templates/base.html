@@ -28,7 +28,19 @@
 <body>
     <header>
         <!-- Header -->
-        {% if not user.is_authenticated %} <button uk-toggle="target: #authentication" type="button">Sign Up!</button> {% endif %}
+        <nav class="uk-navbar-container" uk-navbar>
+            <div class="uk-navbar-left">
+                <img src="{% static 'images/Placeholder.png' %}" alt="Logo" id="heading-logo">
+            </div>
+            <div class="uk-navbar-center">
+                <h1 class="uk-text-center">CAPSTONE PROJECT</h1>
+            </div>
+            <div class="uk-navbar-right">
+                <div class="toggle">
+                    <a href="#" class="uk-navbar-toggle" uk-toggle="target: #nav-canvas"><span class="uk-margin-small-right menu">Menu</span> <span uk-navbar-toggle-icon></span></a>
+                </div>
+            </div>
+        </nav>
     </header>
     <main>
         {% block content %} {% endblock %}
@@ -36,8 +48,8 @@
     <div id="authentication" {% if register_error or login_error %} class="uk-open" style="display: block;" {% endif %} uk-modal>
         <div class="uk-modal-body uk-modal-dialog">
             <ul uk-tab>
-                <li><a href="#">Login</a></li>
-                <li {% if register_error %} class="uk-active" {% endif %}><a href="#">Register</a></li>
+                <li><a href="#" id="login-tab">Login</a></li>
+                <li {% if register_error %} class="uk-active" {% endif %}><a href="#" id="register-tab">Register</a></li>
             </ul>
             <ul class="uk-switcher">
                 <li>
@@ -56,6 +68,45 @@
                     </form>
                 </li>
             </ul>
+            <button class="uk-modal-close" type="button"></button>
+        </div>
+    </div>
+
+    <div id="nav-canvas" uk-offcanvas="flip: true">
+        <div class="uk-offcanvas-bar">
+            <ul class="uk-nav uk-nav-default">
+                <button class="uk-offcanvas-close" type="button" uk-close></button>
+                {% if user.is_authenticated %}
+                    <li><a href="#" uk-toggle="target: #profile-modal">My Profile</a></li>
+                    <li><a href="/projects/">My Projects</a></li>
+                    <li><a href="#" uk-toggle="target: #logout-confirm">Logout</a></li>
+                {% else %}
+                    <li><a href="#" id="login-btn" uk-toggle="target: #authentication">Sign In</a></li>
+                    <li><a href="#" id="register-btn" uk-toggle="target: #authentication">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div id="logout-confirm" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <h1>Confirm Logout</h1>
+            <a href="{% url 'logout' %}"><button>Logout</button></a>
+        </div>
+        <button class="uk-modal-close" type="button"></button>
+    </div>
+
+    <div id="profile-modal" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <button class="uk-modal-close" type="button"></button>
+            <h1>Edit Profile</h1>
+            <form action="{% url 'profile' user.profile.id %}" id="profile-form" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="_method", value="PUT">
+                <input type="hidden" name="origin" id="origin">
+                {{ profile_form|crispy }}
+                <input type="submit" value="Save" id="profile-submit">
+            </form>
         </div>
     </div>
 </body>

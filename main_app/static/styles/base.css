@@ -6,3 +6,19 @@ span#login-error, p.help-block strong {
 .hidden {
     display: none;
 }
+
+#heading-logo {
+    width: 125px;
+    height: 125px;
+    margin: 15px;
+}
+
+nav h1 {
+    margin: 0;
+}
+
+@media only screen and (max-width: 675px) {
+    nav h1, .menu {
+        display: none;
+    }
+}
