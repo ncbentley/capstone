@@ -35,7 +35,7 @@ class Page(models.Model):
 
 class Wireframe(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='wireframe_images/')
     description = models.TextField(max_length=200)
 
 class Sprint(models.Model):

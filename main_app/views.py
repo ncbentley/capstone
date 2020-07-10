@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.core import serializers
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -196,13 +197,17 @@ def page(request, project_id, page_id):
     if request.method == 'GET': # Page Show
         try:
             page = Page.objects.get(id=page_id)
-            context = {'register_form': RegistrationForm(prefix="register"), 'login_form': AuthenticationForm(prefix="login"), 'page': page, 'wireframe_form': WireframeForm()}
+            wireframes = page.wireframe_set.all()
+            context = {'register_form': RegistrationForm(prefix="register"), 'login_form': AuthenticationForm(prefix="login"), 'page': page, 'wireframe_form': WireframeForm(), 'edit_forms': [], 'wireframes': wireframes}
             try:
                 context['profile_form'] = ProfileForm(instance=request.user.profile, prefix="profile")
             except:
                 pass
+            # Send form for each wireframe edit actions
+            for wireframe in wireframes:
+                context['edit_forms'].append(WireframeForm(instance=wireframe))
             return render(request, 'projects/pages/show.html', context)
-        except:
+        except Exception as e:
             return render(request, '404.html')
     elif request.method == 'PUT': # TODO: Page Update
         pass
@@ -227,9 +232,11 @@ def wireframes(request, project_id, page_id):
         pass
 
 def wireframe(request, project_id, page_id, wireframe_id):
-    if request.method == 'PUT': # TODO: Wireframe Update
-        pass
-    elif request.method == 'DELETE': # TODO: Wireframe Delete
+    # TODO: View image in edit form
+    if request.method == 'POST' and request.POST.get('_method') == 'PUT': # Wireframe Update
+        form = WireframeForm(request.POST, request.FILES, instance=Wireframe.objects.get(id=wireframe_id)).save()
+        return redirect(page, project_id, page_id)
+    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': # TODO: Wireframe Delete
         pass
     else: # TODO: Unauthorized
         pass

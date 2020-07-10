@@ -96,18 +96,21 @@
         <button class="uk-modal-close" type="button"></button>
     </div>
 
-    <div id="profile-modal" uk-modal>
-        <div class="uk-modal-dialog uk-modal-body">
-            <button class="uk-modal-close" type="button"></button>
-            <h1>Edit Profile</h1>
-            <form action="{% url 'profile' user.profile.id %}" id="profile-form" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="_method", value="PUT">
-                <input type="hidden" name="origin" id="origin">
-                {{ profile_form|crispy }}
-                <input type="submit" value="Save" id="profile-submit">
-            </form>
+    {% if user.is_authenticated %}
+        <div id="profile-modal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <button class="uk-modal-close" type="button"></button>
+                <h1>Edit Profile</h1>
+                
+                <form action="{% url 'profile' user.profile.id %}" id="profile-form" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method", value="PUT">
+                    <input type="hidden" name="origin" id="origin">
+                    {{ profile_form|crispy }}
+                    <input type="submit" value="Save" id="profile-submit">
+                </form>
+            </div>
         </div>
-    </div>
+    {% endif %}
 </body>
 </html>
