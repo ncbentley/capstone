@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Project, Sprint, Task, Page, Wireframe, Profile
-from .forms import RegistrationForm, ProjectForm
+from .forms import RegistrationForm, ProjectForm, PageForm, TaskForm
 import json
 
 # TODO: LoginRequired
@@ -79,9 +79,11 @@ def project(request, project_id):
     if request.method == 'GET': # Project Show
         try:
             project = Project.objects.get(id=project_id)
-            context = {project: project}
+            print(project.sprint_set)
+            context = {'project': project, 'page_form': PageForm()}
             return render(request, 'projects/show.html', context)
-        except:
+        except Exception as e:
+            print(e)
             return render(request, '404.html')
     elif request.method == 'PUT': # TODO: Project Update
         pass
@@ -91,16 +93,14 @@ def project(request, project_id):
         pass
 
 def sprints(request, project_id):
-    if request.method == 'GET': # Projects Index
+    if request.method == 'POST': # TODO: Projects Create
         try:
-            project = Project.objects.get(id=project_id)
-            sprints = project.sprint_set.all()
-            context = {project: project, sprints: sprints}
-        except:
-            return render(request, '404.html')
-        return render(request, 'projects/sprints/index.html', context)
-    elif request.method == 'POST': # TODO: Projects Create
-        pass
+            sprint = Sprint(project=Project.objects.get(id=project_id))
+            sprint.save()
+            return redirect(f'/projects/{project_id}/sprints/{sprint.id}/')
+        except Exception as e:
+            print(e)
+            return redirect('/projects/')
     else: # TODO: Unauthorized
         pass
 
@@ -108,8 +108,7 @@ def sprint(request, project_id, sprint_id):
     if request.method == 'GET': # Project Show
         try:
             sprint = Sprint.objects.get(id=sprint_id)
-            project = Project.objects.get(id=project_id)
-            context = {project: project, sprint: sprint}
+            context = {'sprint': sprint, 'task_form': TaskForm()}
             return render(request, 'projects/sprints/show.html', context)
         except:
             return render(request, '404.html')
@@ -120,17 +119,33 @@ def sprint(request, project_id, sprint_id):
     else: # TODO: Unauthorized
         pass
 
-def pages(request, project_id):
-    if request.method == 'GET': # Projects Index
-        try:
-            project = Project.objects.get(id=project_id)
-            pages = project.page_set.all()
-            context = {project: project, pages: pages}
-            return render(request, 'projects/pages/index.html', context)
-        except:
-            return render(request, '404.html')
-    elif request.method == 'POST': # TODO: Projects Create
+def tasks(request, project_id, sprint_id):
+    if request.method == 'POST': # Task Create
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            try:
+                task = form.save(commit=False)
+                task.sprint = Sprint.objects.get(id=sprint_id)
+                task.save()
+                return redirect(sprint, project_id, sprint_id)
+            except:
+                return redirect(project, project_id)
+            
+    else: # TODO: Unauthorized
         pass
+
+def pages(request, project_id):
+    if request.method == 'POST': # TODO: Pages Create
+        form = PageForm(request.POST)
+        if form.is_valid():
+            page = form.save(commit=False)
+            page.project = Project.objects.get(id=project_id)
+            page.save()
+            return redirect(f'/projects/{project_id}/pages/{page.id}/')
+        try:
+            return render(request, 'projects/show.html', {'project': Project.objects.get(id=project_id), 'page_error': 'true'})
+        except:
+            return redirect('/projects/')
     else: # TODO: Unauthorized
         pass
 

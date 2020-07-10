@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %} Capstone Project {% endblock %}
 
@@ -8,9 +9,51 @@
 {% endblock %}
 
 {% block scripts %}
-    <!-- Scripts -->
+    <script src="{% static 'scripts/project.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    <!-- Content -->
+   <h1>{{project.title}}</h1>
+
+   <div class="sprints">
+        <h2>Sprints</h2><button uk-toggle="target: #new-sprint-form">+</button>
+        <ul>
+            {% for sprint in project.sprint_set.all %}
+            <li>
+                <h3><a href="{% url 'sprint' project.id sprint.id %}">Sprint {{forloop.counter}}</a></h3>
+            </li>
+            {% endfor %}
+        </ul>
+   </div>
+   <div class="wireframes">
+       <h2>Page</h2> <button uk-toggle="target: #new-page-form">+</button>
+       <ul>
+        {% for page in project.page_set.all %}
+        <li>
+            <h3><a href="{% url 'page' project.id page.id %}">{{page.title}}</a></h3>
+        </li>
+        {% endfor %}
+    </ul>
+   </div>
+
+   <div id="new-sprint-form" uk-modal>
+       <div class="uk-modal-dialog uk-modal-body">
+           <div class="uk-modal-title">Create New Sprint?</div>
+           <form class="hidden" id="sprint-form" action="{% url 'sprints' project.id %}" method="POST">
+               {% csrf_token %}
+            </form>
+           <button id="new-sprint">Yes</button>
+       </div>
+   </div>
+
+   <div id="new-page-form" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <div class="uk-modal-title">Create New Page</div>
+        <form action="{% url 'pages' project.id %}" method="POST">
+            {% csrf_token %}
+            {{ page_form|crispy }}
+            <input type="submit" value="Create Page">
+         </form>
+    </div>
+</div>
 {% endblock %}

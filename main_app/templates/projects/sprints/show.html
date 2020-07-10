@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %} Capstone Project {% endblock %}
 
@@ -12,5 +13,20 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Content -->
+    <h1>Sprint 0</h1> <button uk-toggle="target: #new-task-form">+</button>
+    <ul class="task-list">
+        {% for task in sprint.task_set.all %}
+            <li>{{task.description}}</li>
+        {% endfor %}
+    </ul>
+
+    <div id="new-task-form" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <form action="{% url 'tasks' sprint.project.id sprint.id %}" method="POST">
+                {% csrf_token %}
+                {{ task_form|crispy }}
+                <input type="submit" value="Create Task">
+            </form>
+        </div>
+    </div>
 {% endblock %}

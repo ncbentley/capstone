@@ -17,7 +17,7 @@
     <div class="project-list">
         {% for project in projects %}
             <div class="project">
-                {{project.title}}
+                <a href="{% url 'project' project.id %}">{{project.title}}</a>
             </div>
         {% endfor %}
     </div>
