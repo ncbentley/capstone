@@ -17,4 +17,5 @@ urlpatterns = [
     path('projects/<int:project_id>/pages/<int:page_id>/', views.page, name="page"),
     path('projects/<int:project_id>/pages/<int:page_id>/wireframes/', views.wireframes, name="wireframes"),
     path('projects/<int:project_id>/pages/<int:page_id>/wireframe/<int:wireframe_id>/', views.wireframe, name="wireframe"),
+    path('togglecomplete/<int:task_id>/', views.toggle_complete, name="togglecomplete")
 ]

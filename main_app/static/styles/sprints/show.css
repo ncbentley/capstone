@@ -1,0 +1,25 @@
+.add-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 2em;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.uk-container {
+    position: relative;
+}
+
+.edit {
+    color: blue;
+}
+
+.delete {
+    color: red;
+}

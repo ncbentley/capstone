@@ -141,13 +141,18 @@ def sprint(request, project_id, sprint_id):
     if request.method == 'GET': # Sprint Show
         try:
             sprint = Sprint.objects.get(id=sprint_id)
-            context = {'register_form': RegistrationForm(prefix="register"), 'login_form': AuthenticationForm(prefix="login"), 'sprint': sprint, 'task_form': TaskForm()}
+            project = sprint.project
+            for x, s in enumerate(project.sprint_set.all()):
+                if s.id == sprint.id:
+                    break
+            context = {'register_form': RegistrationForm(prefix="register"), 'login_form': AuthenticationForm(prefix="login"), 'sprint': sprint, 'task_form': TaskForm(), 'number': x + 1}
             try:
                 context['profile_form'] = ProfileForm(instance=request.user.profile, prefix="profile")
             except:
                 pass
             return render(request, 'projects/sprints/show.html', context)
-        except:
+        except Exception as e:
+            print(e)
             return render(request, '404.html')
     elif request.method == 'PUT': # TODO: Sprint Update
         pass
@@ -172,10 +177,19 @@ def tasks(request, project_id, sprint_id):
         pass
 
 def task(request, project_id, sprint_id, task_id):
-    if request.method == 'PUT': # TODO: Task Update
-        pass
-    elif request.method == 'DELETE': # TODO: Task Delete
-        pass
+    if request.method == 'POST' and request.POST.get("_method") == 'PUT': # Task Update
+        try:
+            task = Task.objects.get(id=task_id)
+            task.description = request.POST.get('description')
+            task.save()
+        except:
+            pass
+        return redirect(sprint, project_id, sprint_id)
+    elif request.method == 'POST' and request.POST.get('_method') == "DELETE": # Task Delete
+        task = Task.objects.get(id=task_id)
+        if task.sprint.project.client == request.user.profile:
+            task.delete()
+        return redirect(sprint, project_id, sprint_id)
     else: # TODO: Unauthorized
         pass
 
@@ -240,3 +254,14 @@ def wireframe(request, project_id, page_id, wireframe_id):
         pass
     else: # TODO: Unauthorized
         pass
+
+def toggle_complete(request, task_id):
+    try:
+        task = Task.objects.get(id=task_id)
+        if task.sprint.project.dev == request.user.profile:
+            task.completed = not task.completed
+            task.save()
+            return JsonResponse({})
+    except Exception as e:
+        print(e)
+    return JsonResponse({})

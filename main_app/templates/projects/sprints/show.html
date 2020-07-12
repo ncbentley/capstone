@@ -5,27 +5,62 @@
 {% block title %} Capstone Project {% endblock %}
 
 {% block styles %} 
-    <!-- Styles -->
+    <link rel="stylesheet" href="{% static 'styles/sprints/show.css' %}">
 {% endblock %}
 
 {% block scripts %}
-    <!-- Scripts -->
+    <script src="{% static 'scripts/sprints/show.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    <h1>Sprint 0</h1> <button uk-toggle="target: #new-task-form">+</button>
-    <ul class="task-list">
-        {% for task in sprint.task_set.all %}
-            <li>{{task.description}}</li>
+    <div class="uk-container">
+        {% if user.profile.user_type == 'client' %}
+            <button class="add-btn" uk-toggle="target: #new-task-form">+</button>
+        {%endif%}
+        <h1 class="uk-heading-medium uk-heading-divider uk-text-center">Sprint {{number}}</h1>
+        {% for task in sprint.task_set.all%}
+        <div>
+            <div class="editing hidden">
+                <form action="{% url 'task' sprint.project.id sprint.id task.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method" value="PUT">
+                    <input type="text" name="description" id="description{{task.id}}" value="{{task.description}}">
+                    <input type="submit" value="Save">
+                    <button class="cancel">Cancel</button>
+                </form>
+            </div>
+            <div class="informational">
+                {% if user.profile.user_type == 'client' %}
+                <a href="#" class="delete" data-url="{% url 'task' sprint.project.id sprint.id task.id %}" uk-icon="icon: trash" uk-toggle="target: #delete-confirm"></a>
+                <a href="#" class="edit" uk-icon="icon: pencil"></a>
+                {% endif %}
+                <span class="description">{{task.description}}</span>
+                <input type="checkbox" name="completed" id="checkbox{{task.id}}" {% if task.completed %} checked {% endif %}>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
 
     <div id="new-task-form" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
-            <form action="{% url 'tasks' sprint.project.id sprint.id %}" method="POST">
+            <form id="form" action="{% url 'tasks' sprint.project.id sprint.id %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ task_form|crispy }}
-                <input type="submit" value="Create Task">
+                <input type="hidden" name="_method" value="PUT">
+                <div id="form-data">
+                    {{task_form|crispy}}
+                </div>
+                <input id="submit" type="submit" value="Create Task">
+            </form>
+        </div>
+    </div>
+
+    <div id="delete-confirm" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            Confirm Delete?
+            <form id="delete-form" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="submit" value="Delete">
             </form>
         </div>
     </div>
