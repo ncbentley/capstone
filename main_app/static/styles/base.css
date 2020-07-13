@@ -22,3 +22,11 @@ nav h1 {
         display: none;
     }
 }
+
+html {
+    background-color: #ddd;
+}
+
+.uk-heading-divider {
+    border-color: #a1a1a1;
+}

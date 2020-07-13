@@ -35,7 +35,7 @@
                 <a href="#" class="edit" uk-icon="icon: pencil"></a>
                 {% endif %}
                 <span class="description">{{task.description}}</span>
-                <input type="checkbox" name="completed" id="checkbox{{task.id}}" {% if task.completed %} checked {% endif %}>
+                <input type="checkbox" name="completed" id="checkbox{{task.id}}" {% if task.completed %} checked {% endif %} {% if user.profile.user_type == 'client' %} disabled {% endif %}>
             </div>
         </div>
         {% endfor %}

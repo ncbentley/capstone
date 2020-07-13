@@ -117,7 +117,8 @@ def project(request, project_id):
             except:
                 pass
             return render(request, 'projects/show.html', context)
-        except:
+        except Exception as e:
+            print(e)
             return render(request, '404.html')
     elif request.method == 'PUT': # TODO: Project Update
         pass
@@ -257,11 +258,11 @@ def wireframe(request, project_id, page_id, wireframe_id):
 
 def toggle_complete(request, task_id):
     try:
-        task = Task.objects.get(id=task_id)
+        task = Task.objects.get(id=task_id)   
         if task.sprint.project.dev == request.user.profile:
             task.completed = not task.completed
             task.save()
-            return JsonResponse({})
+        return JsonResponse({})
     except Exception as e:
         print(e)
     return JsonResponse({})

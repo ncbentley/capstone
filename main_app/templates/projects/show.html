@@ -5,7 +5,7 @@
 {% block title %} Capstone Project {% endblock %}
 
 {% block styles %} 
-    <!-- Styles -->
+    <link rel="stylesheet" href="{% static 'styles/projects/show.css' %}">
 {% endblock %}
 
 {% block scripts %}
@@ -13,47 +13,57 @@
 {% endblock %}
 
 {% block content %}
-   <h1>{{project.title}}</h1>
+    <div class="uk-container">
+        <h1 class="uk-heading-medium uk-heading-divider uk-text-center">{{project.title}}</h1>
 
-   <div class="sprints">
-        <h2>Sprints</h2><button uk-toggle="target: #new-sprint-form">+</button>
-        <ul>
-            {% for sprint in project.sprint_set.all %}
-            <li>
-                <h3><a href="{% url 'sprint' project.id sprint.id %}">Sprint {{forloop.counter}}</a></h3>
-            </li>
-            {% endfor %}
-        </ul>
-   </div>
-   <div class="wireframes">
-       <h2>Page</h2> <button uk-toggle="target: #new-page-form">+</button>
-       <ul>
-        {% for page in project.page_set.all %}
-        <li>
-            <h3><a href="{% url 'page' project.id page.id %}">{{page.title}}</a></h3>
-        </li>
-        {% endfor %}
-    </ul>
-   </div>
+        <div class="sprints uk-flex" uk-grid>
+            <div class="uk-width-1-3 uk-width-1-4@m">
+                <h1 class="uk-heading-small">Sprints</h1>
+                <button uk-toggle="target: #new-sprint-form">New Sprint</button>
+            </div>
+            <div class="uk-width-2-3 uk-width-3-4@m uk-flex" uk-overflow-auto>
+                {% for sprint in project.sprint_set.all %}
+                    <div class="sprint uk-card-hover {% if sprint.completed %}completed{%endif%}" data-url="{% url 'sprint' project.id sprint.id %}">
+                        <h1 class="uk-heading-small">Sprint {{forloop.counter}}</h1>
+                        <p>Completed? <input type="checkbox" disabled></p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="pages uk-flex" uk-grid>
+            <div class="uk-width-1-3 uk-width-1-4@m">
+                <h1 class="uk-heading-small">Pages</h1>
+                <button uk-toggle="target: #new-page-form">New Page</button>
+            </div>
+            <div class="uk-width-2-3 uk-width-3-4@m uk-flex" uk-overflow-auto>
+                {% for page in project.page_set.all %}
+                    <div class="page uk-card-hover" data-url="{% url 'page' project.id page.id %}">
+                        <h1 class="uk-heading-small">{{page.title}}</h1>
+                        <img src="{% static '' %}{{page.wireframe_set.all.0.image}}" alt="">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
 
-   <div id="new-sprint-form" uk-modal>
-       <div class="uk-modal-dialog uk-modal-body">
-           <div class="uk-modal-title">Create New Sprint?</div>
-           <form class="hidden" id="sprint-form" action="{% url 'sprints' project.id %}" method="POST">
-               {% csrf_token %}
-            </form>
-           <button id="new-sprint">Yes</button>
-       </div>
-   </div>
+        <div id="new-sprint-form" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <div class="uk-modal-title">Create New Sprint?</div>
+                <form class="hidden" id="sprint-form" action="{% url 'sprints' project.id %}" method="POST">
+                    {% csrf_token %}
+                    </form>
+                <button id="new-sprint">Yes</button>
+            </div>
+        </div>
 
-   <div id="new-page-form" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body">
-        <div class="uk-modal-title">Create New Page</div>
-        <form action="{% url 'pages' project.id %}" method="POST">
-            {% csrf_token %}
-            {{ page_form|crispy }}
-            <input type="submit" value="Create Page">
-         </form>
+        <div id="new-page-form" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <div class="uk-modal-title">Create New Page</div>
+                <form action="{% url 'pages' project.id %}" method="POST">
+                    {% csrf_token %}
+                    {{ page_form|crispy }}
+                    <input type="submit" value="Create Page">
+                </form>
+            </div>
+        </div>
     </div>
-</div>
 {% endblock %}

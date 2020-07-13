@@ -20,7 +20,6 @@ class Profile(models.Model):
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-    print(instance)
     instance.profile.save()
 
 
@@ -40,6 +39,13 @@ class Wireframe(models.Model):
 
 class Sprint(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    @property
+    def completed(self):
+        tasks = self.task_set.all()
+        for task in tasks:
+            if not task.completed:
+                return False
+        return True
 
 class Task(models.Model):
     sprint = models.ForeignKey(Sprint, on_delete=models.CASCADE)
