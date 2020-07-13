@@ -15,6 +15,13 @@
 
 {% block content %}
     <div class="uk-container">
+        <ul class="uk-breadcrumb">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'projects' %}">My Projects</a></li>
+            <li><a href="{% url 'project' page.project.id %}">{{page.project.title}}</a></li>
+            <li><a href="" class="uk-disabled">Pages</a></li>
+            <li><span>{{page.title}}</span></li>
+        </ul>
         {% if user.profile.user_type == 'client' %}
             <button class="add-btn" uk-toggle="target: #new-wireframe-form">+</button>
         {%endif%}

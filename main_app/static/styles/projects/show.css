@@ -61,3 +61,7 @@
     object-fit: cover;
     margin: 0 0 5px 0;
 }
+
+.uk-container {
+    position: relative;
+}

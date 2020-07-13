@@ -14,6 +14,13 @@
 
 {% block content %}
     <div class="uk-container">
+        <ul class="uk-breadcrumb">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'projects' %}">My Projects</a></li>
+            <li><a href="{% url 'project' sprint.project.id %}">{{sprint.project.title}}</a></li>
+            <li><a href="" class="uk-disabled">Sprints</a></li>
+            <li><span>Sprint {{number}}</span></li>
+        </ul>
         {% if user.profile.user_type == 'client' %}
             <button class="add-btn" uk-toggle="target: #new-task-form">+</button>
         {%endif%}

@@ -14,6 +14,11 @@
 
 {% block content %}
     <div class="uk-container">
+        <ul class="uk-breadcrumb">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'projects' %}">My Projects</a></li>
+            <li><span>{{project.title}}</span></li>
+        </ul>
         <h1 class="uk-heading-medium uk-heading-divider uk-text-center">{{project.title}}</h1>
 
         <div class="sprints uk-flex" uk-grid>

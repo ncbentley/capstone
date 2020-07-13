@@ -30,3 +30,9 @@ html {
 .uk-heading-divider {
     border-color: #a1a1a1;
 }
+
+.uk-breadcrumb {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
