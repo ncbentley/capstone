@@ -8,4 +8,11 @@ $(function() {
     })
     $('.sprint.completed input[type="checkbox"]').prop("checked", true);
     $($('.sprint:not(.completed)')[$('.sprint:not(.completed)').length - 1]).nextAll().addClass('disabled');
+    $('.project').click(function(event) {
+        node = event.target;
+        while (!$(node).is('.project')) {
+            node = node.parentNode;
+        }
+        window.location.href = $(node).data('url')
+    })
 })

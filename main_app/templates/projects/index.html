@@ -5,31 +5,38 @@
 {% block title %} Capstone Project {% endblock %}
 
 {% block styles %} 
-    <!-- Styles -->
+    <link rel="stylesheet" href="{% static 'styles/projects/index.css' %}">
 {% endblock %}
 
 {% block scripts %}
-    <!-- Scripts -->
+   <script src="{% static 'scripts/project.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    <h1>Projects Index</h1> <button uk-toggle="target: #new-profile-form">+</button>
-    <div class="project-list">
-        {% for project in projects %}
-            <div class="project">
-                <a href="{% url 'project' project.id %}">{{project.title}}</a>
+    <div class="uk-container">
+        {% if user.profile.user_type == 'dev' %}
+            <button class="add-btn" uk-toggle="target: #new-task-form">+</button>
+        {%endif%}
+        <h1 class="uk-heading-medium uk-heading-divider uk-text-center">My Projects</h1>
+        <div class="projects uk-flex uk-flex-column">
+            {% for project in projects %}
+                <div class="project uk-flex" data-url="{% url 'project' project.id %}">
+                    <img src="{% static '' %}{{project.page_set.all.0.wireframe_set.all.0.image}}{% if not project.page_set.all.0.wireframe_set.all.0.image %}wireframe_images/default.png {%endif%}" alt="">
+                    <h1 class="uk-heading-medium project-title uk-flex-1 uk-text-center">{{project.title}}</h1>
+                    <span class="user">{% if user.profile.user_type == 'client' %}{{project.dev.full_name}}{%else%}{{project.client.full_name}}{%endif%}</span>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div {% if create_error %} class="uk-open" style="display: block;" {% endif %} id="new-profile-form" uk-modal>
+            <div class="uk-modal-body uk-modal-dialog">
+                <form action="{% url 'projects' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" value="Create Project"></input>
+                </form>
+
             </div>
-        {% endfor %}
-    </div>
-
-    <div {% if create_error %} class="uk-open" style="display: block;" {% endif %} id="new-profile-form" uk-modal>
-        <div class="uk-modal-body uk-modal-dialog">
-            <form action="{% url 'projects' %}" method="POST">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <input type="submit" value="Create Project"></input>
-            </form>
-
         </div>
     </div>
 {% endblock %}

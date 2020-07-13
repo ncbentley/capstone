@@ -3,6 +3,7 @@
     margin: 0 5px;
     display: inline-block;
     flex: 0 0 50%;
+    transition-duration: .3s;
 }
 
 .sprints, .pages {
@@ -17,8 +18,14 @@
     color: red;
 }
 
-.sprint:hover, .page:hover {
+.sprint:not(.disabled):hover, .page:hover {
+    background-color: #ccc !important;
+    transform: scale(1.05);
     cursor: pointer;
+}
+
+.sprint.disabled:hover {
+    background-color: #000 !important;
 }
 
 @media only screen and (min-width: 960px) {
@@ -29,10 +36,6 @@
 
 .disabled {
     opacity: .6;
-}
-
-.disabled:hover {
-    cursor: default;
 }
 
 ::-webkit-scrollbar {
