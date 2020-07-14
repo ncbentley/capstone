@@ -73,8 +73,7 @@ def logout(request):
 def image(request, wireframe_id):
     try:
         wireframe = Wireframe.objects.get(id=wireframe_id)
-        image = wireframe.image
-        return render(request, 'image.html', {'image': image})
+        return render(request, 'image.html', {'wireframe': wireframe})
     except:
         return render(request, '404.html')
 

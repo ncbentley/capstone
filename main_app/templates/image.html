@@ -11,5 +11,6 @@
 {% endblock %}
 
 {% block content %}
-    <img src="{% static '' %}{{image}}" alt="">
+    <a href="{% url 'page' wireframe.page.project.id wireframe.page.id %}" class="uk-button-text">Back to Page</a>
+    <img src="{% static '' %}{{wireframe.image}}" alt="">
 {% endblock %}

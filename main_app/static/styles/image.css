@@ -3,4 +3,11 @@ main {
     justify-content: center;
     align-items: center;
     height: calc(100vh - 155px);
+    position: relative;
+}
+
+main a {
+    position: absolute !important;
+    top: 10px;
+    left: 50px;
 }
