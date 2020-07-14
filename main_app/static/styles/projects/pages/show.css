@@ -26,6 +26,16 @@
     font-size: 2em;
 }
 
+.delete {
+    color: #FA161600;
+    display: inline;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    transition-duration: .3s;
+    font-size: 2em;
+}
+
 .wireframe-card {
     position: relative;
     margin: 20px 0;
@@ -34,8 +44,11 @@
 .wireframe-card:hover .edit {
     color: #000000;
 }
+.wireframe-card:hover .delete {
+    color: #FA1616;
+}
 
-.edit:hover {
+.edit:hover, .delete:hover {
     cursor: pointer;
 }
 

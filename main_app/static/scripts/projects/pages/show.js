@@ -12,8 +12,14 @@ $(function() {
         $('#form-data').html(form)
         $('#submit').val('Update Wireframe')
     })
+    $('.delete').click(function(event) {
+        let del = $(event.target.parentNode);
+        if (del.data('action') == undefined) {
+            del = $(event.target);
+        }
+        $('#delete-form').attr('action', del.data('action'))
+    })
     $('.add-btn').click(function(event) {
-        console.log(event)
         $('#form').attr('action', formAction)
         $('#form-data').html(formData)
         $('#submit').val('Create Wireframe')

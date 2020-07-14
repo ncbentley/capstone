@@ -35,8 +35,8 @@ def login(request):
         except:
             pass
         return render(request, 'home.html', context)
-    else: # TODO: Unauthorized
-        pass
+    else:
+        return render(request, '404.html')
 
 
 def signup(request):
@@ -131,8 +131,8 @@ def project(request, project_id):
         pass
     elif request.method == 'DELETE': # TODO: Project Delete
         pass
-    else: # TODO: Unauthorized
-        pass
+    else:
+        return render(request, '404.html')
 
 def sprints(request, project_id):
     if request.method == 'POST': # Sprints Create
@@ -142,8 +142,8 @@ def sprints(request, project_id):
             return redirect(sprint, project_id, sprint.id)
         except:
             return redirect(projects)
-    else: # TODO: Unauthorized
-        pass
+    else:
+        return render(request, '404.html')
 
 def sprint(request, project_id, sprint_id):
     if request.method == 'GET': # Sprint Show
@@ -166,8 +166,8 @@ def sprint(request, project_id, sprint_id):
         pass
     elif request.method == 'DELETE': # TODO: Sprint Delete
         pass
-    else: # TODO: Unauthorized
-        pass
+    else:
+        return render(request, '404.html')
 
 def tasks(request, project_id, sprint_id):
     if request.method == 'POST': # Task Create
@@ -181,8 +181,8 @@ def tasks(request, project_id, sprint_id):
             except:
                 pass
         return redirect(project, project_id)     
-    else: # TODO: Unauthorized
-        pass
+    else:
+        return render(request, '404.html')
 
 def task(request, project_id, sprint_id, task_id):
     if request.method == 'POST' and request.POST.get("_method") == 'PUT': # Task Update
@@ -198,8 +198,8 @@ def task(request, project_id, sprint_id, task_id):
         if task.sprint.project.client == request.user.profile:
             task.delete()
         return redirect(sprint, project_id, sprint_id)
-    else: # TODO: Unauthorized
-        pass
+    else:
+        return render(request, '404.html')
 
 def pages(request, project_id):
     if request.method == 'POST': # Pages Create
@@ -212,8 +212,8 @@ def pages(request, project_id):
                 return redirect(page, project_id, page.id)
             except: pass
         return redirect(projects)
-    else: # TODO: Unauthorized
-        pass
+    else:
+        return render(request, '404.html')
 
 def page(request, project_id, page_id):
     if request.method == 'GET': # Page Show
@@ -235,8 +235,8 @@ def page(request, project_id, page_id):
         pass
     elif request.method == 'DELETE': # TODO: Page Delete
         pass
-    else: # TODO: Unauthorized
-        pass
+    else:
+        return render(request, '404.html')
 
 def wireframes(request, project_id, page_id):
     if request.method == 'POST': # Wireframe Create
@@ -250,18 +250,19 @@ def wireframes(request, project_id, page_id):
             except:
                 pass
         return redirect(project, project_id)
-    else: # TODO: Unauthorized
-        pass
+    else:
+        return render(request, '404.html')
 
 def wireframe(request, project_id, page_id, wireframe_id):
-    # TODO: View image in edit form
     if request.method == 'POST' and request.POST.get('_method') == 'PUT': # Wireframe Update
         form = WireframeForm(request.POST, request.FILES, instance=Wireframe.objects.get(id=wireframe_id)).save()
         return redirect(page, project_id, page_id)
-    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': # TODO: Wireframe Delete
-        pass
-    else: # TODO: Unauthorized
-        pass
+    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': #  Wireframe Delete
+        wireframe = Wireframe.objects.get(id=wireframe_id)
+        wireframe.delete()
+        return redirect(page, project_id, page_id)
+    else:
+        return render(request, '404.html')
 
 def toggle_complete(request, task_id):
     try:

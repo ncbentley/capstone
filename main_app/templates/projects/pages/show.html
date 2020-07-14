@@ -32,6 +32,7 @@
                 <div class="wireframe-card uk-card uk-card-body uk-card-default">
                     {% if user.profile.user_type == 'client' %}
                         <a class="edit" uk-icon="icon: pencil; ratio: 1.5" data-action="{% url 'wireframe' page.project.id page.id wireframe.id %}" data-form='{% with form=edit_forms|index:forloop.counter0 %}{{form|crispy}}{%endwith%}' href="#" uk-toggle="target: #new-page-form"></a>
+                        <a class="delete" uk-icon="icon: trash; ratio: 1.5" data-action="{% url 'wireframe' page.project.id page.id wireframe.id %}" href="#" uk-toggle="target: #delete-page-form"></a>
                     {%endif%}
                     <img src="{% static '' %}{{wireframe.image}}" alt="Wireframe Image" class="wireframe-image" data-wireframe="{{wireframe.id}}" data-tooltip-container data-tooltip-label="View Full Size">
                     <p class="wireframe-title">{{wireframe.description}}</p>
@@ -51,6 +52,18 @@
                     {{wireframe_form|crispy}}
                 </div>
                 <input id="submit" type="submit" value="Create Wireframe">
+            </form>
+        </div>
+    </div>
+
+    <div id="delete-page-form" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <button class="uk-modal-close-default" uk-close></button>
+            Delete Wireframe?
+            <form id="delete-form" action="" method="POST" enctype="">
+                {% csrf_token %}
+                <input type="hidden" name="_method" value="DELETE">
+                <input id="submit" type="submit" value="Confirm">
             </form>
         </div>
     </div>
