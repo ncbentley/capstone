@@ -45,6 +45,7 @@
     <div id="new-page-form" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <button class="uk-modal-close-default" uk-close></button>
+            <h2 class="uk-modal-title new-title">Create New Wireframe</h2>
             <form id="form" action="{% url 'wireframes' page.project.id page.id %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="hidden" name="_method" value="PUT">
@@ -59,7 +60,7 @@
     <div id="delete-page-form" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <button class="uk-modal-close-default" uk-close></button>
-            Delete Wireframe?
+            <h2 class="uk-modal-title">Confirm Delete?</h2>
             <form id="delete-form" action="" method="POST" enctype="">
                 {% csrf_token %}
                 <input type="hidden" name="_method" value="DELETE">

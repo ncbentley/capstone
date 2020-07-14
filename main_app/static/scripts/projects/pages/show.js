@@ -10,6 +10,7 @@ $(function() {
         const action = edit.data('action')
         $('#form').attr('action', action)
         $('#form-data').html(form)
+        $('.new-title').text("Edit Wireframe")
         $('#submit').val('Update Wireframe')
     })
     $('.delete').click(function(event) {
@@ -22,6 +23,7 @@ $(function() {
     $('.add-btn').click(function(event) {
         $('#form').attr('action', formAction)
         $('#form-data').html(formData)
+        $('.new-title').text("Create New Wireframe")
         $('#submit').val('Create Wireframe')
     })
     $('.wireframe-image').click(function(event) {

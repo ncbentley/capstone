@@ -56,7 +56,7 @@
         <div id="new-sprint-form" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
                 <button class="uk-modal-close-default" uk-close></button>
-                <div class="uk-modal-title">Create New Sprint?</div>
+                <h2 class="uk-modal-title">Create New Sprint?</h2>
                 <form class="hidden" id="sprint-form" action="{% url 'sprints' project.id %}" method="POST">
                     {% csrf_token %}
                     </form>
@@ -67,7 +67,7 @@
         <div id="new-page-form" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
                 <button class="uk-modal-close-default" uk-close></button>
-                <div class="uk-modal-title">Create New Page</div>
+                <h2 class="uk-modal-title">Create New Page</h2>
                 <form action="{% url 'pages' project.id %}" method="POST">
                     {% csrf_token %}
                     {{ page_form|crispy }}

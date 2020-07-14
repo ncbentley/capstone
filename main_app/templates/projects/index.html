@@ -35,6 +35,7 @@
         <div {% if create_error %} class="uk-open" style="display: block;" {% endif %} id="new-project-form" uk-modal>
             <div class="uk-modal-body uk-modal-dialog">
                 <button class="uk-modal-close-default" uk-close></button>
+                <h2 class="uk-modal-title">Create New Project</h2>
                 <form action="{% url 'projects' %}" method="POST">
                     {% csrf_token %}
                     {{ form|crispy }}
