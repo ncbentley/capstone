@@ -38,3 +38,21 @@
 .edit:hover {
     cursor: pointer;
 }
+
+.wireframe-image:hover {
+    cursor: pointer;
+}
+
+.tooltip {
+	position: absolute;
+	width: 140px;
+	padding: 15px 10px;
+	border-radius: 4px;
+	font-family: monospace;
+	text-align: center;
+	color: #fff;
+	background-color: rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+}
+
+

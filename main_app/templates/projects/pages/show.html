@@ -33,7 +33,7 @@
                     {% if user.profile.user_type == 'client' %}
                         <a class="edit" uk-icon="icon: pencil; ratio: 1.5" data-action="{% url 'wireframe' page.project.id page.id wireframe.id %}" data-form='{% with form=edit_forms|index:forloop.counter0 %}{{form|crispy}}{%endwith%}' href="#" uk-toggle="target: #new-page-form"></a>
                     {%endif%}
-                    <img src="{% static '' %}{{wireframe.image}}" alt="Wireframe Image" class="wireframe-image" data-wireframe="{{wireframe.id}}">
+                    <img src="{% static '' %}{{wireframe.image}}" alt="Wireframe Image" class="wireframe-image" data-wireframe="{{wireframe.id}}" data-tooltip-container data-tooltip-label="View Full Size">
                     <p class="wireframe-title">{{wireframe.description}}</p>
                 </div>
             </div>
@@ -54,4 +54,6 @@
             </form>
         </div>
     </div>
+
+    <script src="{% static 'vendors/tooltip.js' %}"></script>
 {% endblock %}
