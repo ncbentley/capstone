@@ -47,6 +47,7 @@
     </main>
     <div id="authentication" {% if register_error or login_error %} class="uk-open" style="display: block;" {% endif %} uk-modal>
         <div class="uk-modal-body uk-modal-dialog">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
             <ul uk-tab>
                 <li><a href="#" id="login-tab">Login</a></li>
                 <li {% if register_error %} class="uk-active" {% endif %}><a href="#" id="register-tab">Register</a></li>
@@ -68,7 +69,6 @@
                     </form>
                 </li>
             </ul>
-            <button class="uk-modal-close" type="button"></button>
         </div>
     </div>
 
@@ -90,16 +90,16 @@
 
     <div id="logout-confirm" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
             <h1>Confirm Logout</h1>
             <a href="{% url 'logout' %}"><button>Logout</button></a>
         </div>
-        <button class="uk-modal-close" type="button"></button>
     </div>
 
     {% if user.is_authenticated %}
         <div id="profile-modal" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
-                <button class="uk-modal-close" type="button"></button>
+                <button class="uk-modal-close-default" uk-close></button>
                 <h1>Edit Profile</h1>
                 
                 <form action="{% url 'profile' user.profile.id %}" id="profile-form" method="POST">

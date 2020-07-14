@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block scripts %}
-   <script src="{% static 'scripts/project.js' %}"></script>
+   <script src="{% static 'scripts/projects/index.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -34,12 +34,12 @@
 
         <div {% if create_error %} class="uk-open" style="display: block;" {% endif %} id="new-profile-form" uk-modal>
             <div class="uk-modal-body uk-modal-dialog">
+                <button class="uk-modal-close-default" uk-close></button>
                 <form action="{% url 'projects' %}" method="POST">
                     {% csrf_token %}
                     {{ form|crispy }}
                     <input type="submit" value="Create Project"></input>
                 </form>
-
             </div>
         </div>
     </div>

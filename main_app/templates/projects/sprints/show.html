@@ -50,6 +50,7 @@
 
     <div id="new-task-form" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
+            <button class="uk-modal-close-default" uk-close></button>
             <form id="form" action="{% url 'tasks' sprint.project.id sprint.id %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="hidden" name="_method" value="PUT">
@@ -63,6 +64,7 @@
 
     <div id="delete-confirm" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
+            <button class="uk-modal-close-default" uk-close></button>
             Confirm Delete?
             <form id="delete-form" method="POST">
                 {% csrf_token %}

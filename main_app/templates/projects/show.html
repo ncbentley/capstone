@@ -9,7 +9,10 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'scripts/project.js' %}"></script>
+    <script type="text/javascript">
+        let userType = "{{user.profile.user_type}}";
+    </script>
+    <script src="{% static 'scripts/projects/show.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -52,6 +55,7 @@
 
         <div id="new-sprint-form" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
+                <button class="uk-modal-close-default" uk-close></button>
                 <div class="uk-modal-title">Create New Sprint?</div>
                 <form class="hidden" id="sprint-form" action="{% url 'sprints' project.id %}" method="POST">
                     {% csrf_token %}
@@ -62,6 +66,7 @@
 
         <div id="new-page-form" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
+                <button class="uk-modal-close-default" uk-close></button>
                 <div class="uk-modal-title">Create New Page</div>
                 <form action="{% url 'pages' project.id %}" method="POST">
                     {% csrf_token %}
