@@ -126,3 +126,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'main_app/static/')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+CRISPY_TEMPLATE_PACK = 'uni_form'

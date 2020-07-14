@@ -9,12 +9,15 @@
     <title>
         {% block title %} {% endblock %}
     </title>
-    <!-- Reset -->
+    <!-- Uni-Form -->
+    <link rel="stylesheet" href="{% static 'vendors/uni-form.css' %}">
     <!-- UIKit -->
     <link rel="stylesheet" href="{% static 'vendors/uikit.min.css' %}">
     <!-- Custom -->
     <link rel="stylesheet" href="{% static 'styles/base.css' %}">
     {% block styles %} {% endblock %}
+    <!-- Uni Form JQuery -->
+    <script src="{% static 'vendors/uni-form.jquery.min.js' %}"></script>
     <!-- JQuery -->
     <script src="{% static 'vendors/jquery.min.js' %}"></script>
     <!-- UIKit -->
@@ -58,14 +61,14 @@
                     <form action="{% url 'login' %}" method="POST" id="login-form">
                         {% csrf_token %}
                         {{login_form|crispy}}
-                        <input type="submit" value="Login"></input>
+                        <input class="uk-button uk-button-primary" type="submit" value="Login"></input>
                     </form>
                 </li>
                 <li>
                     <form action="{% url 'signup' %}" method="POST" id="register-form">
                         {% csrf_token %}
                         {{register_form|crispy}}
-                        <input type="submit" value="Register"></input>
+                        <input class="uk-button uk-button-primary" type="submit" value="Register"></input>
                     </form>
                 </li>
             </ul>
@@ -92,7 +95,7 @@
         <div class="uk-modal-dialog uk-modal-body">
             <button class="uk-modal-close-default" type="button" uk-close></button>
             <h2 class="uk-modal-title">Confirm Logout</h2>
-            <a href="{% url 'logout' %}"><button>Logout</button></a>
+            <a href="{% url 'logout' %}"><button class="uk-button uk-button-danger">Logout</button></a>
         </div>
     </div>
 
@@ -107,7 +110,7 @@
                     <input type="hidden" name="_method", value="PUT">
                     <input type="hidden" name="origin" id="origin">
                     {{ profile_form|crispy }}
-                    <input type="submit" value="Save" id="profile-submit">
+                    <input class="uk-button uk-button-primary" type="submit" value="Save" id="profile-submit">
                 </form>
             </div>
         </div>

@@ -11,3 +11,7 @@ main a {
     top: 10px;
     left: 50px;
 }
+
+main a:hover {
+    text-decoration: none;
+}
