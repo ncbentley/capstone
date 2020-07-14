@@ -63,8 +63,8 @@ def signup(request):
         except:
             pass
         return render(request, 'home.html', context)
-    else: # TODO: Unauthorized
-        pass
+    else: 
+        return render(request, '404.html')
 
 def logout(request):
     auth_logout(request)
@@ -162,9 +162,7 @@ def sprint(request, project_id, sprint_id):
         except Exception as e:
             print(e)
             return render(request, '404.html')
-    elif request.method == 'PUT': # TODO: Sprint Update
-        pass
-    elif request.method == 'DELETE': # TODO: Sprint Delete
+    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': # TODO: Sprint Delete
         pass
     else:
         return render(request, '404.html')
@@ -231,9 +229,9 @@ def page(request, project_id, page_id):
             return render(request, 'projects/pages/show.html', context)
         except Exception as e:
             return render(request, '404.html')
-    elif request.method == 'PUT': # TODO: Page Update
+    elif request.method == 'POST' and request.POST.get('_method') == 'PUT': # TODO: Page Update
         pass
-    elif request.method == 'DELETE': # TODO: Page Delete
+    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': # TODO: Page Delete
         pass
     else:
         return render(request, '404.html')

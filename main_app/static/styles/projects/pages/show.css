@@ -17,7 +17,7 @@
 }
 
 .edit {
-    color: #00000000;
+    color: #08d9d600;
     display: inline;
     position: absolute;
     top: 10px;
@@ -27,7 +27,7 @@
 }
 
 .delete {
-    color: #FA161600;
+    color: #ff2e6300;
     display: inline;
     position: absolute;
     top: 10px;
@@ -42,10 +42,10 @@
 }
 
 .wireframe-card:hover .edit {
-    color: #000000;
+    color: #08d9d6;
 }
 .wireframe-card:hover .delete {
-    color: #FA1616;
+    color: #ff2e63;
 }
 
 .edit:hover, .delete:hover {

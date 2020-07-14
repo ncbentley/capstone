@@ -1,5 +1,5 @@
 span#login-error, p.help-block strong {
-    color: red;
+    color: #ff2e63;
     font-size: 11px;
 }
 
@@ -24,15 +24,23 @@ nav h1 {
 }
 
 html {
-    background-color: #ddd;
+    background-color: #eaeaea;
 }
 
 .uk-heading-divider {
-    border-color: #a1a1a1;
+    border-color: #252a34;
 }
 
 .uk-breadcrumb {
     position: absolute;
     top: 5px;
     left: 5px;
+}
+
+.uk-button-primary {
+    background-color: #08d9d6;
+}
+
+.uk-button-danger {
+    background-color: #ff2e63;
 }
