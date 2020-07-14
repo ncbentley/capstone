@@ -70,6 +70,14 @@ def logout(request):
     auth_logout(request)
     return redirect(home)
 
+def image(request, wireframe_id):
+    try:
+        wireframe = Wireframe.objects.get(id=wireframe_id)
+        image = wireframe.image
+        return render(request, 'image.html', {'image': image})
+    except:
+        return render(request, '404.html')
+
 def profile(request, profile_id):
     if request.method == 'POST' and request.POST.get('_method') == 'PUT': # Update Profile
         profile = Profile.objects.get(id=profile_id)

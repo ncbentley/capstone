@@ -18,4 +18,8 @@ $(function() {
         $('#form-data').html(formData)
         $('#submit').val('Create Wireframe')
     })
+    $('.wireframe-image').click(function(event) {
+        const wireframe = $(event.target).data('wireframe')
+        window.location.href = `/image/${wireframe}/`
+    })
 })

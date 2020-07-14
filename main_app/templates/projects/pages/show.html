@@ -6,11 +6,11 @@
 {% block title %} Capstone Project {% endblock %}
 
 {% block styles %} 
-   <link rel="stylesheet" href="{% static 'styles/pages/show.css' %}">
+   <link rel="stylesheet" href="{% static 'styles/projects/pages/show.css' %}">
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'scripts/pages/show.js' %}"></script>
+    <script src="{% static 'scripts/projects/pages/show.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -33,7 +33,7 @@
                     {% if user.profile.user_type == 'client' %}
                         <a class="edit" uk-icon="icon: pencil; ratio: 1.5" data-action="{% url 'wireframe' page.project.id page.id wireframe.id %}" data-form='{% with form=edit_forms|index:forloop.counter0 %}{{form|crispy}}{%endwith%}' href="#" uk-toggle="target: #new-page-form"></a>
                     {%endif%}
-                    <img src="{% static '' %}{{wireframe.image}}" alt="Wireframe Image" class="wireframe-image">
+                    <img src="{% static '' %}{{wireframe.image}}" alt="Wireframe Image" class="wireframe-image" data-wireframe="{{wireframe.id}}">
                     <p class="wireframe-title">{{wireframe.description}}</p>
                 </div>
             </div>

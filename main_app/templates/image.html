@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Capstone Project {% endblock %}
+
+{% block styles %} 
+    <link rel="stylesheet" href="{% static 'styles/image.css' %}">
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+    <img src="{% static '' %}{{image}}" alt="">
+{% endblock %}
