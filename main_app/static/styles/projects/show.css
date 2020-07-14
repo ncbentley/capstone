@@ -7,15 +7,15 @@
 }
 
 .sprints, .pages {
-    background-color: #aaa;
+    background-color: #252a34;
 }
 
 .sprint.completed h1 {
-    color: green;
+    color: #08d9d6;
 }
 
 .sprint:not(.completed) h1 {
-    color: red;
+    color: #ff2e63;
 }
 
 .sprint:not(.disabled):hover, .page:hover {
@@ -43,16 +43,16 @@
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #aaa;
+    background-color: #252a34;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #444;
+    background: #08d9d650;
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #1f1f1f;
+    background: #08d9d690;
 }
 
 .page img {
@@ -64,4 +64,23 @@
 
 .uk-container {
     position: relative;
+}
+
+.titles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.light {
+    color: #eaeaea;
+}
+
+.light:hover {
+    color: #eaeaea;
+}
+
+.light::before {
+    border-color: #eaeaea;
 }

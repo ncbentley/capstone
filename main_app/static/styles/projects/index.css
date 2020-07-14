@@ -17,7 +17,7 @@
 }
 
 .project {
-    background-color: #aaa;
+    background-color: #252a34;
     margin: 20px 0;
     position: relative;
     transition-duration: .3s;
@@ -36,7 +36,12 @@
 }
 
 .user {
+    color: #08d9d6a0;
     position: absolute;
     bottom: 5px;
     right: 5px;
+}
+
+.project-title {
+    color: #eaeaea;
 }

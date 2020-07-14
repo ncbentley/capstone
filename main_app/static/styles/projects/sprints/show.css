@@ -24,7 +24,14 @@
     color: red;
 }
 
-.informational {
+.informational:not(.hidden) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.editing:not(.hidden) {
     display: flex;
     flex-direction: row;
     justify-content: center;
