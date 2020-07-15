@@ -162,7 +162,9 @@ def sprint(request, project_id, sprint_id):
             print(e)
             return render(request, '404.html')
     elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': # TODO: Sprint Delete
-        pass
+        sprint = Sprint.objects.get(id=sprint_id)
+        sprint.delete()
+        return redirect(f'/projects/{project_id}/')
     else:
         return render(request, '404.html')
 

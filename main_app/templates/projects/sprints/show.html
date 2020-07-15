@@ -24,7 +24,10 @@
         {% if user.profile.user_type == 'client' %}
             <button class="add-btn" uk-toggle="target: #new-task-form">+</button>
         {%endif%}
-        <h1 class="uk-heading-medium uk-heading-divider uk-text-center">Sprint {{number}}</h1>
+        <h1 class="uk-heading-medium uk-heading-divider uk-text-center">
+            Sprint {{number}}
+            <a class="sprint-delete" uk-icon="icon: trash; ratio: 1.5" href="#" uk-toggle="target: #delete-sprint"></a>
+        </h1>
         {% for task in sprint.task_set.all%}
         <div>
             <div class="editing hidden">
@@ -66,8 +69,21 @@
     <div id="delete-confirm" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <button class="uk-modal-close-default" uk-close></button>
-            <h2 class="uk-modal-title">Confirm Delete?</h2>
+            <h2 class="uk-modal-title">Confirm Delete</h2>
             <form id="delete-form" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="_method" value="DELETE">
+                <input class="uk-button uk-button-danger form-button" type="submit" value="Delete">
+            </form>
+        </div>
+    </div>
+
+    <div id="delete-sprint" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <button class="uk-modal-close-default" uk-close></button>
+            <h2 class="uk-modal-title">Confirm Delete</h2>
+            Delete this sprint and all tasks with which it is associated?
+            <form action="{% url 'sprint' sprint.project.id sprint.id %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="_method" value="DELETE">
                 <input class="uk-button uk-button-danger form-button" type="submit" value="Delete">

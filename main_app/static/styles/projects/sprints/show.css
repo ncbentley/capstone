@@ -17,11 +17,11 @@
 }
 
 .edit {
-    color: blue;
+    color: #08d9d6;
 }
 
 .delete {
-    color: red;
+    color: #ff2e63;
 }
 
 .informational:not(.hidden) {
@@ -40,4 +40,8 @@
 
 .description {
     margin: 0 50px;
+}
+
+.sprint-delete {
+    color: #ff2e63;
 }
