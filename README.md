@@ -3,10 +3,16 @@
 
 > WePortal is a web application that allows a developer and a client to connect on projects. Clients can create sprints with infinitely many tasks within as well as pages with just as many different wireframes. Developers can view these wireframes full screen to have something to reference when designing the client's site. They can also enter into sprints in order completing tasks. Sprints are not unlocked until the previous sprint is completed.
 
+## Made Using
+
+```sh
+Python3 Django PostgreSQL
+```
+
 ## Install
 
 ```sh
-python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver
+python3 manage.py makemigrations && python3 manage.py migrate
 ```
 
 ## Usage
@@ -20,7 +26,7 @@ python3 manage.py runserver
 👤 **Nico Bentley**
 
 * Website: a
-* Github: [@ncbentley4](https://github.com/ncbentley4)
+* Github: [@ncbentley](https://github.com/ncbentley)
 * LinkedIn: [@nico-bentley](https://linkedin.com/in/nico-bentley)
 
 ## Show your support
