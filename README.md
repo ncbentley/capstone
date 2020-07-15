@@ -9,6 +9,12 @@
 
 ### ✨ [Demo](https://weportal-nb.herokuapp.com)
 
+## Made Using
+
+```sh
+Python3 Django PostgreSQL
+```
+
 ## Install
 
 ```sh
