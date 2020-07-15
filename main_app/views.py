@@ -40,7 +40,6 @@ def login(request):
     else:
         return render(request, '404.html')
 
-
 def signup(request):
     if request.method == 'POST': #Authenticate registration
         form = RegistrationForm(request.POST, prefix="register")
@@ -88,7 +87,6 @@ def profile(request, profile_id):
     print(request.POST)
     return redirect(request.POST.get('origin'))
 
-
 def projects(request):
     error = False
     if request.method == 'POST': # Projects Create
@@ -114,7 +112,6 @@ def projects(request):
     except:
         pass
     return render(request, 'projects/index.html', context)
-
 
 def project(request, project_id):
     if request.method == 'GET': # Project Show
@@ -209,9 +206,9 @@ def pages(request, project_id):
                 page = form.save(commit=False)
                 page.project = Project.objects.get(id=project_id)
                 page.save()
-                return redirect(page, project_id, page.id)
+                return redirect(project, project_id)
             except: pass
-        return redirect(projects)
+        return redirect(project, project_id)
     else:
         return render(request, '404.html')
 
@@ -220,7 +217,7 @@ def page(request, project_id, page_id):
         try:
             page = Page.objects.get(id=page_id)
             wireframes = page.wireframe_set.all()
-            context = {'register_form': RegistrationForm(prefix="register"), 'login_form': AuthenticationForm(prefix="login"), 'page': page, 'wireframe_form': WireframeForm(), 'edit_forms': [], 'wireframes': wireframes}
+            context = {'register_form': RegistrationForm(prefix="register"), 'login_form': AuthenticationForm(prefix="login"), 'page': page, 'wireframe_form': WireframeForm(), 'edit_forms': [], 'wireframes': wireframes, 'page_form': PageForm(instance=page)}
             try:
                 context['profile_form'] = ProfileForm(instance=request.user.profile, prefix="profile")
             except:
@@ -231,10 +228,22 @@ def page(request, project_id, page_id):
             return render(request, 'projects/pages/show.html', context)
         except Exception as e:
             return render(request, '404.html')
-    elif request.method == 'POST' and request.POST.get('_method') == 'PUT': # TODO: Page Update
-        pass
-    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': # TODO: Page Delete
-        pass
+    elif request.method == 'POST' and request.POST.get('_method') == 'PUT': # Page Edit
+        try:
+            page = Page.objects.get(id=page_id)
+            form = PageForm(request.POST, instance=page)
+            if form.is_valid():
+                form.save()
+        except:
+            pass
+        return redirect(f'/projects/{project_id}/pages/{page_id}')
+    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': # Page Delete
+        try:
+            page = Page.objects.get(id=page_id)
+            page.delete()
+        except:
+            pass
+        return redirect(project, project_id)
     else:
         return render(request, '404.html')
 

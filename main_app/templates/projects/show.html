@@ -47,7 +47,7 @@
                 {% for page in project.page_set.all %}
                     <div class="page uk-card-hover" data-url="{% url 'page' project.id page.id %}">
                         <h1 class="uk-heading-small light">{{page.title}}</h1>
-                        <img src="{% static '' %}{{page.wireframe_set.all.0.image}}" alt="">
+                        <img src="{% static '' %}{% if page.wireframe_set.all.0.image %}{{page.wireframe_set.all.0.image}}{%else%}wireframe_images/default.png{%endif%}" alt="">
                     </div>
                 {% endfor %}
             </div>
