@@ -20,6 +20,11 @@ class ProjectForm(forms.ModelForm):
         fields = ['title']
         required = ['client_email']
 
+class EditProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['title']
+
 class PageForm(forms.ModelForm):
     class Meta:
         model = Page
@@ -36,7 +41,6 @@ class WireframeForm(forms.ModelForm):
         fields = ['image', 'description']
 
 class ProfileForm(forms.ModelForm):
-
     class Meta:
         model = Profile
         fields = ['full_name', 'email']

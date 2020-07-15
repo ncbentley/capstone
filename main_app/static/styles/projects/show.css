@@ -84,3 +84,12 @@
 .light::before {
     border-color: #eaeaea;
 }
+
+.project-edit {
+    color: #08d9d6;
+    margin: 0 10px;
+}
+
+.project-delete {
+    color: #ff2e63;
+}

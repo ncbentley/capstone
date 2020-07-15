@@ -22,7 +22,11 @@
             <li><a href="{% url 'projects' %}">My Projects</a></li>
             <li><span>{{project.title}}</span></li>
         </ul>
-        <h1 class="uk-heading-medium uk-heading-divider uk-text-center">{{project.title}}</h1>
+        <h1 class="uk-heading-medium uk-heading-divider uk-text-center">
+            {{project.title}}
+            <a class="project-edit" uk-icon="icon: pencil; ratio: 1.5" href="#" uk-toggle="target: #edit-project-form"></a>
+            <a class="project-delete" uk-icon="icon: trash; ratio: 1.5" href="#" uk-toggle="target: #delete-project-form"></a>
+        </h1>
 
         <div class="sprints uk-flex" uk-grid>
             <div class="uk-width-1-3 uk-width-1-4@m titles">
@@ -75,5 +79,32 @@
                 </form>
             </div>
         </div>
+
+         <div id="edit-project-form" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <button class="uk-modal-close-default" uk-close></button>
+                <h2 class="uk-modal-title new-title">Edit Project</h2>
+                <form id="form" action="{% url 'project' project.id %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method" value="PUT">
+                    {{project_form|crispy}}
+                    <input class="uk-button uk-button-primary form-button" id="submit" type="submit" value="Update">
+                </form>
+            </div>
+        </div>
+
+        <div id="delete-project-form" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <button class="uk-modal-close-default" uk-close></button>
+                <h2 class="uk-modal-title new-title">Delete Project</h2>
+                Delete this project and all sprints and pages with which it is associated?
+                <form id="form" action="{% url 'project' project.id %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input class="uk-button uk-button-danger form-button" id="submit" type="submit" value="Delete">
+                </form>
+            </div>
+        </div>
+
     </div>
 {% endblock %}

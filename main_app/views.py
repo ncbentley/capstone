@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Project, Sprint, Task, Page, Wireframe, Profile
-from .forms import RegistrationForm, ProjectForm, PageForm, TaskForm, WireframeForm, ProfileForm
+from .forms import RegistrationForm, ProjectForm, PageForm, TaskForm, WireframeForm, ProfileForm, EditProjectForm
 import json
 
 # TODO: LoginRequired
@@ -97,8 +97,9 @@ def projects(request):
             try:
                 project.client = Profile.objects.get(email=request.POST.get("client_email"))
                 project.save()
-                return redirect(project, project.id)
-            except:
+                return redirect(f'/projects/{project.id}/')
+            except Exception as e:
+                print(e)
                 pass
         error = True
     else:
@@ -117,7 +118,7 @@ def project(request, project_id):
     if request.method == 'GET': # Project Show
         try:
             project = Project.objects.get(id=project_id)
-            context = {'register_form': RegistrationForm(prefix="register"), 'login_form': AuthenticationForm(prefix="login"), 'project': project, 'page_form': PageForm()}
+            context = {'register_form': RegistrationForm(prefix="register"), 'login_form': AuthenticationForm(prefix="login"), 'project': project, 'page_form': PageForm(), 'project_form': EditProjectForm(instance=project)}
             try:
                 context['profile_form'] = ProfileForm(instance=request.user.profile, prefix="profile")
             except:
@@ -126,10 +127,16 @@ def project(request, project_id):
         except Exception as e:
             print(e)
             return render(request, '404.html')
-    elif request.method == 'PUT': # TODO: Project Update
-        pass
-    elif request.method == 'DELETE': # TODO: Project Delete
-        pass
+    elif request.method == 'POST' and request.POST.get('_method') == 'PUT': # Project Update
+        project = Project.objects.get(id=project_id)
+        form = EditProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+        return redirect(f'/projects/{project_id}/')
+    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': # Project Delete
+        project = Project.objects.get(id=project_id)
+        project.delete()
+        return redirect(projects)
     else:
         return render(request, '404.html')
 
