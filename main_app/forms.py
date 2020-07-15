@@ -14,11 +14,10 @@ class RegistrationForm(UserCreationForm):
     user_type = forms.ChoiceField(choices=TYPES)
 
 class ProjectForm(forms.ModelForm):
-    client_email = forms.CharField(max_length=50)
+    client_email = forms.CharField(max_length=50, required=False)
     class Meta:
         model = Project
         fields = ['title']
-        required = ['client_email']
 
 class EditProjectForm(forms.ModelForm):
     class Meta:

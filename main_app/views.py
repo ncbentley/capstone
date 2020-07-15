@@ -102,9 +102,9 @@ def projects(request):
                 project.client = Profile.objects.get(email=request.POST.get("client_email"))
                 project.save()
                 return redirect(f'/projects/{project.id}/')
-            except Exception as e:
-                print(e)
-                pass
+            except:
+                project.save()
+                return redirect(f'/projects/{project.id}/')
         error = True
     else:
         form = ProjectForm()

@@ -22,7 +22,8 @@
             <li><a href="{% url 'projects' %}">My Projects</a></li>
             <li><span>{{project.title}}</span></li>
         </ul>
-        <h1 class="uk-heading-medium uk-heading-divider uk-text-center">
+        <span id='url-span'>Client URL: <input type="text" name="url" id="url" value="localhost:8000/attach/{{project.id}}" disabled><button class="uk-button uk-button-text" id="copy">Copy</button></span>
+        <h1 class="project-title uk-heading-medium uk-heading-divider uk-text-center">
             {{project.title}}
             {% if user.profile.user_type == 'client' %}
                 <a class="project-edit" uk-icon="icon: pencil; ratio: 1.5" href="#" uk-toggle="target: #edit-project-form"></a>

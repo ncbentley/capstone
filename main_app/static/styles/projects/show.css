@@ -93,3 +93,14 @@
 .project-delete {
     color: #ff2e63;
 }
+
+#url-span {
+    position: absolute;
+    top: 50px;
+}
+
+@media only screen and (max-width: 825px) {
+    .project-title {
+        margin-top: 80px;
+    }
+}

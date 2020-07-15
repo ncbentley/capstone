@@ -24,7 +24,7 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
 
 
 class Project(models.Model):
-    client = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="client")
+    client = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="client", null=True)
     dev = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="dev")
     title = models.CharField(max_length=50)
 
