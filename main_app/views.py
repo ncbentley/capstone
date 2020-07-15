@@ -12,6 +12,8 @@ import json
 # TODO: LoginRequired
 
 def home(request):
+    if request.user.is_authenticated:
+        return redirect(projects)
     context = {'register_form': RegistrationForm(prefix="register"), 'login_form': AuthenticationForm(prefix="login")}
     try:
         context['profile_form'] = ProfileForm(instance=request.user.profile, prefix="profile")
