@@ -9,7 +9,6 @@ from .models import Project, Sprint, Task, Page, Wireframe, Profile
 from .forms import RegistrationForm, ProjectForm, PageForm, TaskForm, WireframeForm, ProfileForm, EditProjectForm
 import json
 
-# TODO: LoginRequired
 
 def home(request):
     if request.user.is_authenticated:

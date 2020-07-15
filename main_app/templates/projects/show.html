@@ -24,8 +24,10 @@
         </ul>
         <h1 class="uk-heading-medium uk-heading-divider uk-text-center">
             {{project.title}}
-            <a class="project-edit" uk-icon="icon: pencil; ratio: 1.5" href="#" uk-toggle="target: #edit-project-form"></a>
-            <a class="project-delete" uk-icon="icon: trash; ratio: 1.5" href="#" uk-toggle="target: #delete-project-form"></a>
+            {% if user.profile.user_type == 'client' %}
+                <a class="project-edit" uk-icon="icon: pencil; ratio: 1.5" href="#" uk-toggle="target: #edit-project-form"></a>
+                <a class="project-delete" uk-icon="icon: trash; ratio: 1.5" href="#" uk-toggle="target: #delete-project-form"></a>
+            {% endif %}
         </h1>
 
         <div class="sprints uk-flex" uk-grid>
