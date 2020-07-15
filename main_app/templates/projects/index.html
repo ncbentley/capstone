@@ -39,7 +39,7 @@
                 <form action="{% url 'projects' %}" method="POST">
                     {% csrf_token %}
                     {{ form|crispy }}
-                    <input type="submit" value="Create Project"></input>
+                    <input class="uk-button uk-button-primary form-button" type="submit" value="Create Project"></input>
                 </form>
             </div>
         </div>

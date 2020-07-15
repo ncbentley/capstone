@@ -52,7 +52,7 @@
                 <div id="form-data">
                     {{wireframe_form|crispy}}
                 </div>
-                <input class="uk-button uk-button-primary" id="submit" type="submit" value="Create Wireframe">
+                <input class="uk-button uk-button-primary form-button" id="submit" type="submit" value="Create Wireframe">
             </form>
         </div>
     </div>
@@ -65,7 +65,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="_method" value="PUT">
                     {{page_form|crispy}}
-                <input class="uk-button uk-button-primary" id="submit" type="submit" value="Update">
+                <input class="uk-button uk-button-primary form-button" id="submit" type="submit" value="Update">
             </form>
         </div>
     </div>
@@ -74,11 +74,11 @@
         <div class="uk-modal-dialog uk-modal-body">
             <button class="uk-modal-close-default" uk-close></button>
             <h2 class="uk-modal-title new-title">Delete Page</h2>
-            <p>Delete this page and all wireframes with which it is associated?</p>
+            Delete this page and all wireframes with which it is associated?
             <form id="form" action="{% url 'page' page.project.id page.id %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="hidden" name="_method" value="DELETE">
-                <input class="uk-button uk-button-danger" id="submit" type="submit" value="Delete">
+                <input class="uk-button uk-button-danger form-button" id="submit" type="submit" value="Delete">
             </form>
         </div>
     </div>
@@ -93,7 +93,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="_method" value="DELETE">
                 <div class="uk-modal-footer">
-                    <input class='uk-button uk-button-danger' type="submit" value="Confirm">
+                    <input class='uk-button uk-button-danger form-button' type="submit" value="Confirm">
                 </div>
             </form>
         </div>

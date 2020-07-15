@@ -60,7 +60,7 @@
                 <form class="hidden" id="sprint-form" action="{% url 'sprints' project.id %}" method="POST">
                     {% csrf_token %}
                     </form>
-                <button id="new-sprint" class="uk-button uk-button-primary">Create Sprint</button>
+                <button id="new-sprint" class="uk-button uk-button-primary form-button">Create Sprint</button>
             </div>
         </div>
 
@@ -71,7 +71,7 @@
                 <form action="{% url 'pages' project.id %}" method="POST">
                     {% csrf_token %}
                     {{ page_form|crispy }}
-                    <input class="uk-button uk-button-primary" type="submit" value="Create Page">
+                    <input class="uk-button uk-button-primary form-button" type="submit" value="Create Page">
                 </form>
             </div>
         </div>

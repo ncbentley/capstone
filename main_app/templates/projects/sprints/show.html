@@ -58,7 +58,7 @@
                 <div id="form-data">
                     {{task_form|crispy}}
                 </div>
-                <input class="uk-button uk-button-primary" id="submit" type="submit" value="Create Task">
+                <input class="uk-button uk-button-primary form-button" id="submit" type="submit" value="Create Task">
             </form>
         </div>
     </div>
@@ -70,7 +70,7 @@
             <form id="delete-form" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="_method" value="DELETE">
-                <input class="uk-button uk-button-danger" type="submit" value="Delete">
+                <input class="uk-button uk-button-danger form-button" type="submit" value="Delete">
             </form>
         </div>
     </div>

@@ -44,3 +44,7 @@ html {
 .uk-button-danger {
     background-color: #ff2e63;
 }
+
+.form-button {
+    margin-top: 20px;
+}
