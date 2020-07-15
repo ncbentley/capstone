@@ -1,4 +1,4 @@
-span#login-error, p.help-block strong {
+span#login-error, p.help-block strong, .errorField {
     color: #ff2e63;
     font-size: 11px;
 }

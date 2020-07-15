@@ -30,17 +30,25 @@ def login(request):
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             auth_login(request, user)
+            if 'project' in request.POST:
+                project = Project.objects.get(id=request.POST.get('project'))
+                project.client = user.profile
+                project.save()
             return redirect('/')
         context = {'login_form': form, 'register_form': RegistrationForm(prefix="register"), 'login_error': 'true'}
         try:
             context['profile_form'] = ProfileForm(instance=request.user.profile, prefix="profile")
         except:
             pass
+        if 'project' in request.POST:
+            context['project_id'] = request.POST.get('project')
+            return render(request, 'attach.html', context)
         return render(request, 'home.html', context)
     else:
         return render(request, '404.html')
 
 def signup(request):
+    email_error = False
     if request.method == 'POST': #Authenticate registration
         form = RegistrationForm(request.POST, prefix="register")
         if form.is_valid():
@@ -50,6 +58,14 @@ def signup(request):
             user_type = request.POST.get('register-user_type')
             username = request.POST.get('register-username')
             password = request.POST.get('register-password1')
+            try:
+                profile = Profile.objects.get(email=email)
+                if 'profile' in request.POST:
+                    return render(request, 'attach.html', {'login_form': AuthenticationForm(prefix="login"), 'register_form': form, 'register_error': 'true', 'project_id': request.POST.get('project'), 'email_error': 'true'})
+                else:
+                    return render(request, 'home.html', {'login_form': AuthenticationForm(prefix="login"), 'register_form': form, 'register_error': 'true'})
+            except:
+                pass
             user = form.save()
             user.profile.full_name = f"{first} {last}"
             user.profile.email = email
@@ -57,12 +73,19 @@ def signup(request):
             user.save()
             user = authenticate(username=username, password=password)
             auth_login(request, user)
+            if 'project' in request.POST:
+                project = Project.objects.get(id=request.POST.get('project'))
+                project.client = user.profile
+                project.save()
             return redirect('/')
         context = {'login_form': AuthenticationForm(prefix="login"), 'register_form': form, 'register_error': 'true'}
         try:
             context['profile_form'] = ProfileForm(instance=request.user.profile, prefix="profile")
         except:
             pass
+        if 'project' in request.POST:
+            context = {'login_form': AuthenticationForm(prefix="login"), 'register_form': form, 'register_error': 'true', 'project_id': request.POST.get('project')}
+            return render(request, 'attach.html', context)
         return render(request, 'home.html', context)
     else: 
         return render(request, '404.html')
@@ -71,6 +94,10 @@ def signup(request):
 def logout(request):
     auth_logout(request)
     return redirect(home)
+
+def attach(request, project_id):
+    context = {'register_form': RegistrationForm(prefix="register"), 'login_form': AuthenticationForm(prefix="login"), 'project_id': project_id}
+    return render(request, 'attach.html', context)
 
 @login_required
 def image(request, wireframe_id):

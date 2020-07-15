@@ -1,0 +1,61 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect to Project</title>
+    <!-- Uni-Form -->
+    <link rel="stylesheet" href="{% static 'vendors/uni-form.css' %}">
+    <!-- UIKit -->
+    <link rel="stylesheet" href="{% static 'vendors/uikit.min.css' %}">
+    <!-- Custom -->
+    <link rel="stylesheet" href="{% static 'styles/base.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/attach.css' %}">
+    <!-- JQuery -->
+    <script src="{% static 'vendors/jquery.min.js' %}"></script>
+    <!-- Uni Form JQuery -->
+    <script src="{% static 'vendors/uni-form.jquery.min.js' %}"></script>
+    <!-- UIKit -->
+    <script src="{% static 'vendors/uikit.min.js' %}"></script>
+    <!-- UIKit Icons -->
+    <script src="{% static 'vendors/uikit-icons.min.js' %}"></script>
+    <!-- Custom -->
+    <script src="{% static 'scripts/base.js' %}"></script>
+    <script src="{% static 'scripts/attach.js' %}"></script>
+</head>
+<body>
+    <main>
+        <ul uk-tab>
+            <li><a href="#" id="login-tab">Login</a></li>
+            <li {% if register_error %} class="uk-active" {% endif %}><a href="#" id="register-tab">Register</a></li>
+        </ul>
+        <ul class="uk-switcher">
+            <li>
+                {% if login_error %} <span id="login-error">Invalid username or password.</span> {%endif%}
+                <form action="{% url 'login' %}" method="POST" id="login-form">
+                    {% csrf_token %}
+                    {{login_form|crispy}}
+                    <input type="hidden" name="project" value="{{project_id}}">
+                    <input class="uk-button uk-button-primary form-button" type="submit" value="Login"></input>
+                </form>
+            </li>
+            <li>
+                <form action="{% url 'signup' %}" method="POST" id="register-form">
+                    {% csrf_token %}
+                    {% if email_error %}
+                    <p id="error_1_id_register-username" class="errorField">
+                        A user with that email already exists.
+                    </p>
+                    {% endif %}
+                    {{register_form|crispy}}
+                    <input type="hidden" name="project" value="{{project_id}}">
+                    <input class="uk-button uk-button-primary form-button" type="submit" value="Register"></input>
+                </form>
+            </li>
+        </ul>
+    </main>
+</body>
+</html>

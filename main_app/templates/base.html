@@ -61,14 +61,14 @@
                     <form action="{% url 'login' %}" method="POST" id="login-form">
                         {% csrf_token %}
                         {{login_form|crispy}}
-                        <input class="uk-button uk-button-primary" type="submit" value="Login"></input>
+                        <input class="uk-button uk-button-primary form-button" type="submit" value="Login"></input>
                     </form>
                 </li>
                 <li>
                     <form action="{% url 'signup' %}" method="POST" id="register-form">
                         {% csrf_token %}
                         {{register_form|crispy}}
-                        <input class="uk-button uk-button-primary" type="submit" value="Register"></input>
+                        <input class="uk-button uk-button-primary form-button" type="submit" value="Register"></input>
                     </form>
                 </li>
             </ul>
