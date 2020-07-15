@@ -1,0 +1,50 @@
+span#login-error, p.help-block strong, .errorField {
+    color: #ff2e63;
+    font-size: 11px;
+}
+
+.hidden {
+    display: none;
+}
+
+#heading-logo {
+    width: 125px;
+    height: 125px;
+    margin: 15px;
+}
+
+nav h1 {
+    margin: 0;
+}
+
+@media only screen and (max-width: 675px) {
+    nav h1, .menu {
+        display: none;
+    }
+}
+
+html {
+    background-color: #eaeaea;
+}
+
+.uk-heading-divider {
+    border-color: #252a34;
+}
+
+.uk-breadcrumb {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.uk-button-primary {
+    background-color: #08d9d6;
+}
+
+.uk-button-danger {
+    background-color: #ff2e63;
+}
+
+.form-button {
+    margin-top: 20px;
+}

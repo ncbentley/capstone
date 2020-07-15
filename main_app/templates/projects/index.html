@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} WePortal Projects {% endblock %}
+
+{% block styles %} 
+    <link rel="stylesheet" href="{% static 'styles/projects/index.css' %}">
+{% endblock %}
+
+{% block scripts %}
+   <script src="{% static 'scripts/projects/index.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="uk-container">
+        <ul class="uk-breadcrumb">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><span>My Projects</span></li>
+        </ul>
+        {% if user.profile.user_type == 'dev' %}
+            <button class="add-btn" uk-toggle="target: #new-project-form">+</button>
+        {%endif%}
+        <h1 class="uk-heading-medium uk-heading-divider uk-text-center">My Projects</h1>
+        <div class="projects uk-flex uk-flex-column">
+            {% for project in projects %}
+                <div class="project uk-flex" data-url="{% url 'project' project.id %}">
+                    <img src="{% static '' %}{{project.page_set.all.0.wireframe_set.all.0.image}}{% if not project.page_set.all.0.wireframe_set.all.0.image %}wireframe_images/default.png {%endif%}" alt="">
+                    <h1 class="uk-heading-medium project-title uk-flex-1 uk-text-center">{{project.title}}</h1>
+                    <span class="user">{% if user.profile.user_type == 'client' %}{{project.dev.full_name}}{%else%}{{project.client.full_name}}{%endif%}</span>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div {% if create_error %} class="uk-open" style="display: block;" {% endif %} id="new-project-form" uk-modal>
+            <div class="uk-modal-body uk-modal-dialog">
+                <button class="uk-modal-close-default" uk-close></button>
+                <h2 class="uk-modal-title">Create New Project</h2>
+                <form action="{% url 'projects' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input class="uk-button uk-button-primary form-button" type="submit" value="Create Project"></input>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,51 @@
+.add-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 2em;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.uk-container {
+    position: relative;
+}
+
+.edit {
+    color: #08d9d6;
+}
+
+.delete {
+    color: #ff2e63;
+}
+
+.informational:not(.hidden) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.editing:not(.hidden) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.description {
+    margin: 0 50px;
+}
+
+.sprint-delete {
+    color: #ff2e63;
+}
+
+.task {
+    margin: 10px 0;
+}

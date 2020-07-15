@@ -1,10 +1,44 @@
-# User Stories
-1. User is greeted with landing page explaining the site
-2. From all pages user can sign in/sign up OR visit profile/myprojects/logout
-3. User can see a list of projects they are on (accounts will be either dev or client)
-4. Devs can create new projects.
-	1. These projects can be connected to clients by the dev linking the client ID, or after creating the project, the dev can send a unique link to the client to connect to the project
-5. Clients can create sprints, create tasks within sprints, edit/delete tasks, create pages/wireframes, and delete sprints (and all taks associated) add images to those pages w/ descriptions, edit/delete those images/descriptions, and delete whole wireframes (removing all images connected - with a confirmation)
-6. Devs can complete tasks (stretch to upload and link screenshots associated with tasks/wireframes)
-7. Sprints are locked until the previous sprint is completed
-8. Profile page just a popup with name/email and (uneditable) role (client/dev)
+# Welcome to WePortal 👋
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> WePortal is a web application that allows a developer and a client to connect on projects. Clients can create sprints with infinitely many tasks within as well as pages with just as many different wireframes. Developers can view these wireframes full screen to have something to reference when designing the client's site. They can also enter into sprints in order completing tasks. Sprints are not unlocked until the previous sprint is completed.
+
+## Made Using
+
+```sh
+Python3 Django PostgreSQL
+```
+
+## Install
+
+```sh
+python3 manage.py makemigrations && python3 manage.py migrate
+```
+
+## Usage
+
+```sh
+python3 manage.py runserver
+```
+
+## Author
+
+👤 **Nico Bentley**
+
+* Website: a
+* Github: [@ncbentley](https://github.com/ncbentley)
+* LinkedIn: [@nico-bentley](https://linkedin.com/in/nico-bentley)
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+
+## 📝 License
+
+Copyright © 2020 [Nico Bentley](https://github.com/ncbentley4).
+
+This project is [MIT](https://opensource.org/licenses/MIT) licensed.
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

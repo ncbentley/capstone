@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main_app'
+    'main_app',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'main_app/static/')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 django_heroku.settings(locals())
+CRISPY_TEMPLATE_PACK = 'uni_form'

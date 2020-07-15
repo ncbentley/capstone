@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Wireframe Image {% endblock %}
+
+{% block styles %} 
+    <link rel="stylesheet" href="{% static 'styles/image.css' %}">
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+    <a href="{% url 'page' wireframe.page.project.id wireframe.page.id %}" class="uk-button-text">Back to Page</a>
+    <img src="{% static '' %}{{wireframe.image}}" alt="">
+{% endblock %}

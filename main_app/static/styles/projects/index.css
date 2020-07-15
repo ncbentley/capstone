@@ -1,0 +1,47 @@
+.add-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 2em;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.uk-container {
+    position: relative;
+}
+
+.project {
+    background-color: #252a34;
+    margin: 20px 0;
+    position: relative;
+    transition-duration: .3s;
+}
+
+.project:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.project img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin: 10px 10px 10px 10px;
+}
+
+.user {
+    color: #08d9d6a0;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+.project-title {
+    color: #eaeaea;
+}
