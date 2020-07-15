@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'images/favicon.jpg' %}" type="image/x-icon">
     <title>
         {% block title %} {% endblock %}
     </title>
@@ -33,14 +34,14 @@
         <!-- Header -->
         <nav class="uk-navbar-container" uk-navbar>
             <div class="uk-navbar-left">
-                <img src="{% static 'images/Placeholder.png' %}" alt="Logo" id="heading-logo">
+                <a href="/"><img src="{% static 'images/favicon.jpg' %}" alt="Logo" id="heading-logo"></a>
             </div>
             <div class="uk-navbar-center">
                 <h1 class="uk-text-center">WePortal</h1>
             </div>
             <div class="uk-navbar-right">
                 <div class="toggle">
-                    <a href="#" class="uk-navbar-toggle" uk-toggle="target: #nav-canvas"><span class="uk-margin-small-right menu">Menu</span> <span uk-navbar-toggle-icon></span></a>
+                    <a href="" class="uk-navbar-toggle" uk-toggle="target: #nav-canvas"><span class="uk-margin-small-right menu">Menu</span> <span uk-navbar-toggle-icon></span></a>
                 </div>
             </div>
         </nav>
