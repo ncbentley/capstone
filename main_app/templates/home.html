@@ -1,15 +1,37 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Capstone Project {% endblock %}
+{% block title %} WePortal {% endblock %}
 
 {% block styles %} 
-    <!-- Styles -->
+    <link rel="stylesheet" href="{% static 'styles/home.css' %}">
 {% endblock %}
 
 {% block scripts %}
-    <!-- Scripts -->
+   <script src="{% static 'scripts/home.js' %}"></script>
 {% endblock %}
 
 {% block content %}
+    <div class="uk-card uk-card-default">
+        <div uk-slideshow="autoplay: true; ratio: 16:6" tabindex="-1" class="uk-position-relative uk-visible-toggle uk-dark slideshow">
+            <ul class="uk-slideshow-items">
+                <li>
+                    <img src="{% static 'images/projects-hover.png' %}" alt="">
+                </li>
+                <li>
+                    <img src="{% static 'images/sprint-edit.png' %}" alt="">
+                </li>
+                <li>
+                    <img src="{% static 'images/sprint-delete.png' %}" alt="">
+                </li>
+            </ul>
+            <a class="uk-position-center-left uk-position-small uk-hidden-hover uk-icon uk-slidenav-previous uk-slidenav" href="#" uk-slidenav-previous="" uk-slideshow-item="previous"><svg width="14px" height="24px" viewBox="0 0 14 24" xmlns="http://www.w3.org/2000/svg" data-svg="slidenav-previous"><polyline fill="none" stroke="#000" stroke-width="1.4" points="12.775,1 1.225,12 12.775,23 "></polyline></svg></a>
+            <a class="uk-position-center-right uk-position-small uk-hidden-hover uk-icon uk-slidenav-next uk-slidenav" href="#" uk-slidenav-next="" uk-slideshow-item="next"><svg width="14px" height="24px" viewBox="0 0 14 24" xmlns="http://www.w3.org/2000/svg" data-svg="slidenav-next"><polyline fill="none" stroke="#000" stroke-width="1.4" points="1.225,23 12.775,12 1.225,1 "></polyline></svg></a>
+        </div>
+    </div>
+
+    <div class="uk-container">
+        <h2 class="uk-heading-medium uk-heading-line uk-text-center"><span>About WePortal</span></h2>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;WePortal is a web application that allows a developer and a client to connect on projects. Clients can create sprints with infinitely many tasks within as well as pages with just as many different wireframes. Developers can view these wireframes full screen to have something to reference when designing the client's site. They can also enter into sprints in order completing tasks. Sprints are not unlocked until the previous sprint is completed. <a href="#" id="sign-in">Sign Up Now</a> to try it out!</p>
+    </div>
 {% endblock %}
