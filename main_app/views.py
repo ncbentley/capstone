@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.core import serializers
 from django.db.models import Q
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from .models import Project, Sprint, Task, Page, Wireframe, Profile
 from .forms import RegistrationForm, ProjectForm, PageForm, TaskForm, WireframeForm, ProfileForm, EditProjectForm
 import json
@@ -66,34 +67,38 @@ def signup(request):
     else: 
         return render(request, '404.html')
 
+@login_required
 def logout(request):
     auth_logout(request)
     return redirect(home)
 
+@login_required
 def image(request, wireframe_id):
-    try:
+    try: # Render full size image page
         wireframe = Wireframe.objects.get(id=wireframe_id)
         return render(request, 'image.html', {'wireframe': wireframe})
-    except:
+    except: # If broken link
         return render(request, '404.html')
 
+@login_required
 def profile(request, profile_id):
     if request.method == 'POST' and request.POST.get('_method') == 'PUT': # Update Profile
         profile = Profile.objects.get(id=profile_id)
         if request.user.profile != profile:
             return redirect(home)
         ProfileForm(request.POST, prefix="profile", instance=profile).save()
-    print(request.POST)
-    return redirect(request.POST.get('origin'))
+    return redirect(home)
 
+@login_required
 def projects(request):
     error = False
-    if request.method == 'POST': # Projects Create
+    if request.method == 'POST' and request.user.profile.user_type == 'dev': # Projects Create
         form = ProjectForm(request.POST)
         if form.is_valid():
             project = form.save(commit=False)
             project.dev = request.user.profile
-            try:
+            # TODO: Attach to client if email. If not return a unique link to give to the client
+            try: # This checks if the email given is valid
                 project.client = Profile.objects.get(email=request.POST.get("client_email"))
                 project.save()
                 return redirect(f'/projects/{project.id}/')
@@ -107,12 +112,10 @@ def projects(request):
     context = {'register_form': RegistrationForm(prefix="register"), 'login_form': AuthenticationForm(prefix="login"), 'profile_form': ProfileForm(prefix="profile"), 'projects': projects, 'form': form}
     if error:
         context['create_error'] = 'true'
-    try:
-        context['profile_form'] = ProfileForm(instance=request.user.profile, prefix="profile")
-    except:
-        pass
+    context['profile_form'] = ProfileForm(instance=request.user.profile, prefix="profile")
     return render(request, 'projects/index.html', context)
 
+@login_required
 def project(request, project_id):
     if request.method == 'GET': # Project Show
         try:
@@ -126,21 +129,22 @@ def project(request, project_id):
         except Exception as e:
             print(e)
             return render(request, '404.html')
-    elif request.method == 'POST' and request.POST.get('_method') == 'PUT': # Project Update
+    elif request.method == 'POST' and request.POST.get('_method') == 'PUT' and request.user.profile.user_type == 'client': # Project Update
         project = Project.objects.get(id=project_id)
         form = EditProjectForm(request.POST, instance=project)
         if form.is_valid():
             form.save()
         return redirect(f'/projects/{project_id}/')
-    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': # Project Delete
+    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE' and request.user.profile.user_type == 'client': # Project Delete
         project = Project.objects.get(id=project_id)
         project.delete()
         return redirect(projects)
     else:
         return render(request, '404.html')
 
+@login_required
 def sprints(request, project_id):
-    if request.method == 'POST': # Sprints Create
+    if request.method == 'POST' and request.user.profile.user_type == 'client': # Sprints Create
         try:
             sprint = Sprint(project=Project.objects.get(id=project_id))
             sprint.save()
@@ -150,6 +154,7 @@ def sprints(request, project_id):
     else:
         return render(request, '404.html')
 
+@login_required
 def sprint(request, project_id, sprint_id):
     if request.method == 'GET': # Sprint Show
         try:
@@ -167,15 +172,16 @@ def sprint(request, project_id, sprint_id):
         except Exception as e:
             print(e)
             return render(request, '404.html')
-    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': # TODO: Sprint Delete
+    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE' and request.user.profile.user_type == 'client': # TODO: Sprint Delete
         sprint = Sprint.objects.get(id=sprint_id)
         sprint.delete()
         return redirect(f'/projects/{project_id}/')
     else:
         return render(request, '404.html')
 
+@login_required
 def tasks(request, project_id, sprint_id):
-    if request.method == 'POST': # Task Create
+    if request.method == 'POST' and request.user.profile.user_type == 'client': # Task Create
         form = TaskForm(request.POST)
         if form.is_valid():
             try:
@@ -189,8 +195,9 @@ def tasks(request, project_id, sprint_id):
     else:
         return render(request, '404.html')
 
+@login_required
 def task(request, project_id, sprint_id, task_id):
-    if request.method == 'POST' and request.POST.get("_method") == 'PUT': # Task Update
+    if request.method == 'POST' and request.POST.get("_method") == 'PUT' and request.user.profile.user_type == 'client': # Task Update
         try:
             task = Task.objects.get(id=task_id)
             task.description = request.POST.get('description')
@@ -198,7 +205,7 @@ def task(request, project_id, sprint_id, task_id):
         except:
             pass
         return redirect(sprint, project_id, sprint_id)
-    elif request.method == 'POST' and request.POST.get('_method') == "DELETE": # Task Delete
+    elif request.method == 'POST' and request.POST.get('_method') == "DELETE" and request.user.profile.user_type == 'client': # Task Delete
         task = Task.objects.get(id=task_id)
         if task.sprint.project.client == request.user.profile:
             task.delete()
@@ -206,8 +213,9 @@ def task(request, project_id, sprint_id, task_id):
     else:
         return render(request, '404.html')
 
+@login_required
 def pages(request, project_id):
-    if request.method == 'POST': # Pages Create
+    if request.method == 'POST' and request.user.profile.user_type == 'client': # Pages Create
         form = PageForm(request.POST)
         if form.is_valid():
             try:
@@ -220,6 +228,7 @@ def pages(request, project_id):
     else:
         return render(request, '404.html')
 
+@login_required
 def page(request, project_id, page_id):
     if request.method == 'GET': # Page Show
         try:
@@ -236,7 +245,7 @@ def page(request, project_id, page_id):
             return render(request, 'projects/pages/show.html', context)
         except Exception as e:
             return render(request, '404.html')
-    elif request.method == 'POST' and request.POST.get('_method') == 'PUT': # Page Edit
+    elif request.method == 'POST' and request.POST.get('_method') == 'PUT' and request.user.profile.user_type == 'client': # Page Edit
         try:
             page = Page.objects.get(id=page_id)
             form = PageForm(request.POST, instance=page)
@@ -245,7 +254,7 @@ def page(request, project_id, page_id):
         except:
             pass
         return redirect(f'/projects/{project_id}/pages/{page_id}')
-    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': # Page Delete
+    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE' and request.user.profile.user_type == 'client': # Page Delete
         try:
             page = Page.objects.get(id=page_id)
             page.delete()
@@ -255,8 +264,9 @@ def page(request, project_id, page_id):
     else:
         return render(request, '404.html')
 
+@login_required
 def wireframes(request, project_id, page_id):
-    if request.method == 'POST': # Wireframe Create
+    if request.method == 'POST' and request.user.profile.user_type == 'client': # Wireframe Create
         form = WireframeForm(request.POST, request.FILES)
         if form.is_valid():
             try:
@@ -270,24 +280,27 @@ def wireframes(request, project_id, page_id):
     else:
         return render(request, '404.html')
 
+@login_required
 def wireframe(request, project_id, page_id, wireframe_id):
-    if request.method == 'POST' and request.POST.get('_method') == 'PUT': # Wireframe Update
+    if request.method == 'POST' and request.POST.get('_method') == 'PUT' and request.user.profile.user_type == 'client': # Wireframe Update
         form = WireframeForm(request.POST, request.FILES, instance=Wireframe.objects.get(id=wireframe_id)).save()
         return redirect(page, project_id, page_id)
-    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE': #  Wireframe Delete
+    elif request.method == 'POST' and request.POST.get('_method') == 'DELETE' and request.user.profile.user_type == 'client': #  Wireframe Delete
         wireframe = Wireframe.objects.get(id=wireframe_id)
         wireframe.delete()
         return redirect(page, project_id, page_id)
     else:
         return render(request, '404.html')
 
+@login_required
 def toggle_complete(request, task_id):
-    try:
-        task = Task.objects.get(id=task_id)   
-        if task.sprint.project.dev == request.user.profile:
-            task.completed = not task.completed
-            task.save()
-        return JsonResponse({})
-    except Exception as e:
-        print(e)
+    if request.user.profile.user_type == 'dev':
+        try:
+            task = Task.objects.get(id=task_id)   
+            if task.sprint.project.dev == request.user.profile:
+                task.completed = not task.completed
+                task.save()
+            return JsonResponse({})
+        except Exception as e:
+            print(e)
     return JsonResponse({})
