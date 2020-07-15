@@ -175,9 +175,9 @@ def sprints(request, project_id):
         try:
             sprint = Sprint(project=Project.objects.get(id=project_id))
             sprint.save()
-            return redirect(sprint, project_id, sprint.id)
+            return redirect(f'/projects/{project_id}/sprints/{sprint.id}')
         except:
-            return redirect(projects)
+            return redirect(project, project_id)
     else:
         return render(request, '404.html')
 

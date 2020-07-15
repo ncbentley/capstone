@@ -31,7 +31,7 @@
             {% endif %}
         </h1>
         {% for task in sprint.task_set.all%}
-        <div>
+        <div class="task">
             <div class="editing hidden">
                 <form action="{% url 'task' sprint.project.id sprint.id task.id %}" method="POST">
                     {% csrf_token %}

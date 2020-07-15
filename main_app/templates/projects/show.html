@@ -70,10 +70,10 @@
             <div class="uk-modal-dialog uk-modal-body">
                 <button class="uk-modal-close-default" uk-close></button>
                 <h2 class="uk-modal-title">Create New Sprint?</h2>
-                <form class="hidden" id="sprint-form" action="{% url 'sprints' project.id %}" method="POST">
+                <form id="sprint-form" action="{% url 'sprints' project.id %}" method="POST">
                     {% csrf_token %}
-                    </form>
-                <button id="new-sprint" class="uk-button uk-button-primary form-button">Create Sprint</button>
+                    <input type="submit"id="new-sprint" class="uk-button uk-button-primary form-button" value="Create Sprint">
+                </form>
             </div>
         </div>
 
