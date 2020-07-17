@@ -126,7 +126,8 @@ def projects(request):
             project.dev = request.user.profile
             # TODO: Attach to client if email. If not return a unique link to give to the client
             try: # This checks if the email given is valid
-                project.client = Profile.objects.get(email=request.POST.get("client_email"))
+                client = Profile.objects.get(email=request.POST.get("client_email"))
+                project.client = client
                 project.save()
                 return redirect(f'/projects/{project.id}/')
             except:
