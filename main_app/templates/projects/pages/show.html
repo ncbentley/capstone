@@ -67,11 +67,11 @@
         <div class="uk-modal-dialog uk-modal-body">
             <button class="uk-modal-close-default" uk-close></button>
             <h2 class="uk-modal-title new-title">Edit Page</h2>
-            <form id="form" action="{% url 'page' page.project.id page.id %}" method="POST" enctype="multipart/form-data">
+            <form action="{% url 'page' page.project.id page.id %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="hidden" name="_method" value="PUT">
                     {{page_form|crispy}}
-                <input class="uk-button uk-button-primary form-button" id="submit" type="submit" value="Update">
+                <input class="uk-button uk-button-primary form-button" type="submit" value="Update Page">
             </form>
         </div>
     </div>
