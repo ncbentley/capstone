@@ -15,3 +15,7 @@ main a {
 main a:hover {
     text-decoration: none;
 }
+
+main img { 
+    max-height: calc(100vh - 220px);
+}
