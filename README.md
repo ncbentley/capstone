@@ -12,7 +12,7 @@
 ## Made Using
 
 ```sh
-Python3 Django PostgreSQL
+Python3 Django PostgreSQL JavaScript JQuery
 ```
 
 ## Install
